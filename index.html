@@ -272,7 +272,7 @@
 
 <div class="toolbar">
   <button class="btn-edit" onclick="toggleEditMode()">✏️ Edit Schedule</button>
-  <button class="btn-publish" id="btnPublish" onclick="promptAndPublish()" style="display:none">🐙 Publish changes</button>
+  <button class="btn-publish" id="btnPublish" onclick="promptAndPublish()" style="display: flex;" disabled="">Publishing…</button>
   <button class="btn-reset" onclick="resetDay()">↺ Reset today</button>
 </div>
 
@@ -286,7 +286,7 @@
     ✏️ Editing <strong id="scopeLabel">weekdays</strong> — changes apply to all days in that group.<br>
     <span style="font-weight:600;color:#a07800">Switch to a weekend tab to edit Sat &amp; Sun separately.</span>
   </div>
-  <div class="day-tabs" id="dayTabs"><button class="day-tab" data-day="0">MON</button><button class="day-tab" data-day="1">TUE</button><button class="day-tab" data-day="2">WED</button><button class="day-tab" data-day="3">THU</button><button class="day-tab active" data-day="4">FRI</button><button class="day-tab" data-day="5">SAT</button><button class="day-tab" data-day="6">SUN</button></div>
+  <div class="day-tabs" id="dayTabs"><button class="day-tab" data-day="0">MON</button><button class="day-tab" data-day="1">TUE</button><button class="day-tab" data-day="2">WED</button><button class="day-tab" data-day="3">THU</button><button class="day-tab active" data-day="4">FRI</button><button class="day-tab" data-day="5">SAT</button><button class="day-tab" data-day="6">SUN</button><button class="day-tab" data-day="0">MON</button><button class="day-tab" data-day="1">TUE</button><button class="day-tab" data-day="2">WED</button><button class="day-tab" data-day="3">THU</button><button class="day-tab active" data-day="4">FRI</button><button class="day-tab" data-day="5">SAT</button><button class="day-tab" data-day="6">SUN</button></div>
   <div class="progress-wrap">
     <span class="progress-emoji" id="progressEmoji">🌱</span>
     <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width: 13%;"></div></div>
@@ -366,7 +366,7 @@
 </div>
 
 <div id="summaryView"></div>
-<div class="icon-picker" id="iconPicker" style="display:none"><button>🗓️</button><button>🐱</button><button>🥣</button><button>🥞</button><button>💊</button><button>🪥</button><button>💄</button><button>👗</button><button>🚪</button><button>🥗</button><button>🧘</button><button>😴</button><button>🍽️</button><button>💬</button><button>🧹</button><button>📵</button><button>🛌</button><button>🏃</button><button>🧺</button><button>💧</button><button>🛒</button><button>🚿</button><button>💆</button><button>🎵</button><button>📚</button><button>🧠</button><button>☕</button><button>🍵</button><button>🫖</button><button>🥤</button><button>💪</button><button>🌿</button><button>⭐</button><button>🌟</button><button>🌸</button><button>🌈</button><button>✅</button><button>🎯</button><button>🔔</button><button>⏰</button><button>🌙</button><button>☀️</button><button>🌅</button><button>💤</button><button>🧴</button><button>🪞</button><button>👟</button><button>🎧</button><button>🐶</button><button>🍎</button><button>🥦</button><button>🏠</button><button>📝</button></div>
+<div class="icon-picker" id="iconPicker" style="display:none"><button>🗓️</button><button>🐱</button><button>🥣</button><button>🥞</button><button>💊</button><button>🪥</button><button>💄</button><button>👗</button><button>🚪</button><button>🥗</button><button>🧘</button><button>😴</button><button>🍽️</button><button>💬</button><button>🧹</button><button>📵</button><button>🛌</button><button>🏃</button><button>🧺</button><button>💧</button><button>🛒</button><button>🚿</button><button>💆</button><button>🎵</button><button>📚</button><button>🧠</button><button>☕</button><button>🍵</button><button>🫖</button><button>🥤</button><button>💪</button><button>🌿</button><button>⭐</button><button>🌟</button><button>🌸</button><button>🌈</button><button>✅</button><button>🎯</button><button>🔔</button><button>⏰</button><button>🌙</button><button>☀️</button><button>🌅</button><button>💤</button><button>🧴</button><button>🪞</button><button>👟</button><button>🎧</button><button>🐶</button><button>🍎</button><button>🥦</button><button>🏠</button><button>📝</button><button>🗓️</button><button>🐱</button><button>🥣</button><button>🥞</button><button>💊</button><button>🪥</button><button>💄</button><button>👗</button><button>🚪</button><button>🥗</button><button>🧘</button><button>😴</button><button>🍽️</button><button>💬</button><button>🧹</button><button>📵</button><button>🛌</button><button>🏃</button><button>🧺</button><button>💧</button><button>🛒</button><button>🚿</button><button>💆</button><button>🎵</button><button>📚</button><button>🧠</button><button>☕</button><button>🍵</button><button>🫖</button><button>🥤</button><button>💪</button><button>🌿</button><button>⭐</button><button>🌟</button><button>🌸</button><button>🌈</button><button>✅</button><button>🎯</button><button>🔔</button><button>⏰</button><button>🌙</button><button>☀️</button><button>🌅</button><button>💤</button><button>🧴</button><button>🪞</button><button>👟</button><button>🎧</button><button>🐶</button><button>🍎</button><button>🥦</button><button>🏠</button><button>📝</button></div>
 
 <script>
 // ── EMBEDDED CONFIG ────────────────────────────────────────────────────────
