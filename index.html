@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Weekly Self-Care Schedule</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --coral:#FF6B6B;--peach:#FFA07A;--sun:#FFD93D;--mint:#6BCB77;
+    --sky:#4ECDC4;--lavender:#C77DFF;--blue:#4D96FF;
+    --bg:#FFF9F0;--text:#2D2D2D;--muted:#888;
+    --shadow:0 4px 16px rgba(0,0,0,0.08);--radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:16px 16px 80px;}
+  h1{font-family:'Fredoka One',cursive;font-size:2rem;text-align:center;
+    background:linear-gradient(135deg,var(--coral),var(--lavender),var(--sky));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px;}
+  .subtitle{text-align:center;color:var(--muted);font-size:0.85rem;margin-bottom:10px;}
+
+  /* sync pill */
+  .sync-bar{display:flex;justify-content:center;margin-bottom:12px;}
+  .sync-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;
+    border-radius:50px;background:white;box-shadow:var(--shadow);font-size:0.72rem;font-weight:800;color:var(--muted);}
+  .sync-dot{width:8px;height:8px;border-radius:50%;background:#ccc;flex-shrink:0;transition:background 0.3s;}
+  .sync-dot.ok{background:var(--mint);}
+  .sync-dot.busy{background:var(--sun);animation:pulse 1s infinite;}
+  .sync-dot.err{background:var(--coral);}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+  /* toolbar */
+  .toolbar{display:flex;gap:8px;justify-content:center;margin-bottom:14px;flex-wrap:wrap;}
+  .toolbar button{padding:8px 16px;border-radius:50px;border:2px solid transparent;
+    font-family:'Nunito',sans-serif;font-weight:800;font-size:0.78rem;
+    cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:5px;}
+  .btn-edit{background:white;border-color:var(--lavender);color:var(--lavender);}
+  .btn-edit:hover{background:#f5eeff;}
+  .btn-edit.active{background:var(--lavender);color:white;}
+  .btn-filesave{background:var(--mint);color:white;border-color:var(--mint);display:none;}
+  .btn-filesave:hover{background:#50b85a;}
+  .btn-reset{background:white;border-color:#ddd;color:var(--muted);}
+  .btn-reset:hover{border-color:var(--coral);color:var(--coral);}
+  body.edit-mode .btn-filesave{display:flex;}
+
+  /* main tabs */
+  .main-tabs{display:flex;gap:8px;justify-content:center;margin-bottom:16px;}
+  .main-tab{padding:9px 22px;border-radius:50px;border:2.5px solid #ddd;
+    background:white;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.85rem;
+    cursor:pointer;transition:all 0.2s;color:var(--muted);}
+  .main-tab.active{background:var(--text);color:white;border-color:var(--text);}
+  .main-tab:hover:not(.active){background:#f0f0f0;color:var(--text);}
+
+  /* day tabs */
+  .day-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:14px;scrollbar-width:none;}
+  .day-tabs::-webkit-scrollbar{display:none;}
+  .day-tab{flex-shrink:0;padding:8px 14px;border-radius:50px;border:2.5px solid transparent;
+    background:white;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.78rem;
+    cursor:pointer;transition:all 0.2s;color:var(--muted);}
+  .day-tab.active{color:white;}
+  .day-tab[data-day="0"].active{background:var(--coral);}
+  .day-tab[data-day="1"].active{background:var(--peach);}
+  .day-tab[data-day="2"].active{background:var(--sun);color:#555;}
+  .day-tab[data-day="3"].active{background:var(--mint);}
+  .day-tab[data-day="4"].active{background:var(--sky);}
+  .day-tab[data-day="5"].active{background:var(--blue);}
+  .day-tab[data-day="6"].active{background:var(--lavender);}
+  .day-tab:not(.active):hover{background:#f0f0f0;color:var(--text);}
+
+  /* edit banner */
+  .edit-scope{display:none;background:#fff8e1;border:2px solid var(--sun);border-radius:14px;
+    padding:10px 14px;font-size:0.8rem;font-weight:700;color:#7a5a00;
+    margin-bottom:12px;text-align:center;line-height:1.6;}
+  body.edit-mode .edit-scope{display:block;}
+
+  /* progress */
+  .progress-wrap{background:white;border-radius:50px;padding:10px 16px;margin-bottom:14px;
+    box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;}
+  .progress-bar-bg{flex:1;height:12px;background:#f0f0f0;border-radius:50px;overflow:hidden;}
+  .progress-bar-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--mint),var(--sky));
+    transition:width 0.4s ease;width:0%;}
+  .progress-label{font-weight:800;font-size:0.8rem;white-space:nowrap;color:var(--muted);}
+  .progress-emoji{font-size:1.2rem;}
+  body.edit-mode .progress-wrap{display:none;}
+
+  /* setup card */
+  .setup-card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:16px;}
+  .setup-card h2{font-family:'Fredoka One',cursive;font-size:1.3rem;margin-bottom:8px;text-align:center;}
+  .setup-card p{font-size:0.84rem;color:var(--muted);line-height:1.6;margin-bottom:16px;text-align:center;}
+  .setup-fields{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+  .setup-fields input{padding:10px 14px;border-radius:12px;border:2px solid #e8e8e8;
+    font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:700;outline:none;color:var(--text);}
+  .setup-fields input:focus{border-color:var(--lavender);}
+  .setup-fields input::placeholder{color:#ccc;font-weight:600;}
+  .connect-btn{width:100%;padding:12px;background:var(--lavender);color:white;border:none;
+    border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.9rem;
+    cursor:pointer;transition:background 0.2s;}
+  .connect-btn:hover{background:#b565f5;}
+  .connect-btn:disabled{background:#ccc;cursor:default;}
+  .setup-note{font-size:0.72rem;color:var(--muted);text-align:center;margin-top:10px;line-height:1.6;}
+
+  /* sections */
+  .section{margin-bottom:14px;}
+  .section-header{display:flex;align-items:center;gap:8px;padding:10px 14px;
+    border-radius:var(--radius) var(--radius) 0 0;
+    font-family:'Fredoka One',cursive;font-size:1rem;color:white;letter-spacing:0.3px;}
+  .section-header.morning{background:linear-gradient(135deg,#FF9A56,#FFD93D);}
+  .section-header.afternoon{background:linear-gradient(135deg,#4ECDC4,#4D96FF);}
+  .section-header.evening{background:linear-gradient(135deg,#C77DFF,#FF6EB4);}
+  .section-header.flexible{background:linear-gradient(135deg,#6BCB77,#4ECDC4);}
+  .section-header .time-badge{margin-left:auto;font-family:'Nunito',sans-serif;font-size:0.72rem;
+    font-weight:700;background:rgba(255,255,255,0.25);padding:2px 8px;border-radius:50px;}
+  .task-list{background:white;border-radius:0 0 var(--radius) var(--radius);box-shadow:var(--shadow);overflow:hidden;}
+
+  /* task row */
+  .task-item{display:flex;align-items:center;gap:12px;padding:13px 16px;
+    border-bottom:1px solid #f5f5f5;cursor:pointer;transition:background 0.15s;user-select:none;}
+  .task-item:last-child{border-bottom:none;}
+  .task-item:hover{background:#fafafa;}
+  .task-item.done{opacity:0.5;}
+  .task-item.done .task-label{text-decoration:line-through;}
+  .task-check{width:26px;height:26px;border-radius:50%;border:2.5px solid #ddd;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;font-size:0.9rem;}
+  .task-item.done .task-check{background:var(--mint);border-color:var(--mint);color:white;}
+  .task-icon{font-size:1.2rem;flex-shrink:0;}
+  .task-text{flex:1;}
+  .task-label{font-weight:700;font-size:0.9rem;display:block;}
+  .task-time{font-size:0.72rem;color:var(--muted);font-weight:600;}
+  .task-tag{font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:50px;white-space:nowrap;flex-shrink:0;}
+  .tag-meal{background:#FFF0E0;color:#E87A00;}
+  .tag-meds{background:#FFE8F0;color:#D6006E;}
+  .tag-hygiene{background:#E8F4FF;color:#0072D6;}
+  .tag-move{background:#E8FFE8;color:#007A30;}
+  .tag-rest{background:#F0E8FF;color:#7000C8;}
+  .tag-social{background:#FFF8E0;color:#B08000;}
+  .tag-sleep{background:#EDE8FF;color:#5200C8;}
+  .tag-chores{background:#E8F8F0;color:#006640;}
+
+  /* edit rows */
+  .edit-row{display:none;flex-direction:column;gap:8px;
+    padding:12px 14px;border-bottom:1px solid #eeebff;background:#fdfcff;}
+  body.edit-mode .task-item{display:none !important;}
+  body.edit-mode .edit-row{display:flex;}
+  .edit-fields{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+  .edit-icon-btn{width:38px;height:38px;border-radius:10px;border:2px solid #e8e8e8;
+    background:white;font-size:1.15rem;cursor:pointer;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;}
+  .edit-icon-btn:hover{background:#f0eeff;border-color:var(--lavender);}
+  .edit-label-input{flex:1;min-width:130px;padding:7px 11px;border-radius:10px;border:2px solid #e8e8e8;
+    font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:700;color:var(--text);background:white;outline:none;}
+  .edit-label-input:focus{border-color:var(--lavender);}
+  .edit-time-input{width:88px;padding:7px 9px;border-radius:10px;border:2px solid #e8e8e8;
+    font-family:'Nunito',sans-serif;font-size:0.78rem;font-weight:700;color:var(--muted);background:white;outline:none;}
+  .edit-time-input:focus{border-color:var(--sky);}
+  .edit-tag-select{padding:7px 8px;border-radius:10px;border:2px solid #e8e8e8;
+    font-family:'Nunito',sans-serif;font-size:0.72rem;font-weight:800;
+    background:white;outline:none;cursor:pointer;color:var(--text);}
+  .edit-tag-select:focus{border-color:var(--mint);}
+  .edit-del-btn{width:32px;height:32px;border-radius:50%;border:none;background:#fee8e8;color:#cc0000;
+    font-size:1rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+  .edit-del-btn:hover{background:#ffcccc;}
+
+  /* add row */
+  .add-row{display:none;padding:10px 14px;gap:6px;align-items:center;flex-wrap:wrap;
+    background:#f6fff6;border-top:2px dashed #b8e8b8;}
+  body.edit-mode .add-row{display:flex;}
+  .add-row input,.add-row select{padding:7px 10px;border-radius:10px;border:2px solid #c8e8c8;
+    font-family:'Nunito',sans-serif;font-size:0.82rem;font-weight:700;background:white;color:var(--text);outline:none;}
+  .add-row input:focus,.add-row select:focus{border-color:var(--mint);}
+  .add-icon-input{width:46px;text-align:center;font-size:1.1rem;}
+  .add-label-input{flex:1;min-width:100px;}
+  .add-time-input{width:80px;}
+  .add-btn{padding:7px 16px;background:var(--mint);color:white;border:none;border-radius:50px;
+    font-family:'Nunito',sans-serif;font-weight:800;font-size:0.8rem;cursor:pointer;}
+  .add-btn:hover{background:#4db860;}
+
+  /* icon picker */
+  .icon-picker{position:fixed;background:white;border-radius:16px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.18);padding:12px;z-index:9999;
+    display:grid;grid-template-columns:repeat(8,1fr);gap:4px;width:280px;max-height:200px;overflow-y:auto;}
+  .icon-picker button{width:30px;height:30px;border:none;background:none;font-size:1rem;
+    cursor:pointer;border-radius:7px;display:flex;align-items:center;justify-content:center;}
+  .icon-picker button:hover{background:#f0eeff;}
+
+  .flex-note{font-size:0.75rem;color:var(--muted);text-align:center;padding:6px 0 10px;font-style:italic;}
+  .celebration{display:none;text-align:center;padding:20px;font-size:2rem;animation:pop 0.4s ease;}
+  @keyframes pop{0%{transform:scale(0.5);opacity:0}100%{transform:scale(1);opacity:1}}
+
+  /* summary */
+  #summaryView{display:none;}
+  .summary-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;}
+  .summary-title{font-family:'Fredoka One',cursive;font-size:1.3rem;}
+  .clr-btn{padding:6px 14px;border-radius:50px;border:2px solid #ffcccc;background:white;
+    color:#cc3333;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.75rem;cursor:pointer;}
+  .clr-btn:hover{background:#fff0f0;}
+  .streak-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+  .streak-card{background:white;border-radius:var(--radius);padding:14px;box-shadow:var(--shadow);text-align:center;}
+  .s-num{font-family:'Fredoka One',cursive;font-size:2.2rem;line-height:1;}
+  .s-lbl{font-size:0.72rem;font-weight:800;color:var(--muted);margin-top:2px;}
+  .streak-card.cur .s-num{color:var(--mint);}
+  .streak-card.best .s-num{color:var(--coral);}
+  .sum-sec{font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:10px;}
+  .heatmap-wrap{background:white;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:20px;overflow-x:auto;}
+  .heatmap-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;min-width:260px;}
+  .hm-lbl{font-size:0.65rem;font-weight:800;color:var(--muted);text-align:center;padding-bottom:4px;}
+  .hm-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;
+    font-size:0.58rem;font-weight:800;transition:transform 0.15s;cursor:default;}
+  .hm-cell:hover{transform:scale(1.2);z-index:2;}
+  .hm-0{background:#f0f0f0;color:transparent;}
+  .hm-1{background:#d4f0d4;color:#2a7a2a;}
+  .hm-2{background:#a8e0a8;color:#1a5a1a;}
+  .hm-3{background:#6BCB77;color:#fff;}
+  .hm-4{background:#3aaa4a;color:#fff;}
+  .hm-future{background:#fafafa;}
+  .hm-today{outline:2.5px solid var(--coral);outline-offset:1px;}
+  .tag-bk{background:white;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:20px;}
+  .tag-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .tag-row:last-child{margin-bottom:0;}
+  .tag-lbl{font-weight:800;font-size:0.82rem;width:130px;flex-shrink:0;}
+  .tag-bg{flex:1;height:10px;background:#f0f0f0;border-radius:50px;overflow:hidden;}
+  .tag-fill{height:100%;border-radius:50px;transition:width 0.6s ease;}
+  .tag-pct{font-weight:800;font-size:0.75rem;color:var(--muted);width:34px;text-align:right;flex-shrink:0;}
+  .recent-list{background:white;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px;}
+  .rec-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #f5f5f5;}
+  .rec-item:last-child{border-bottom:none;}
+  .rec-date{font-weight:800;font-size:0.82rem;flex:1;}
+  .rec-date small{display:block;font-weight:600;font-size:0.7rem;color:var(--muted);}
+  .rec-bar-bg{width:80px;height:8px;background:#f0f0f0;border-radius:50px;overflow:hidden;flex-shrink:0;}
+  .rec-bar-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--mint),var(--sky));}
+  .chip{font-size:0.72rem;font-weight:800;padding:3px 10px;border-radius:50px;flex-shrink:0;}
+  .chip-great{background:#e8ffe8;color:#007a30;}
+  .chip-good{background:#fff8e0;color:#b08000;}
+  .chip-ok{background:#f0e8ff;color:#7000c8;}
+  .chip-low{background:#ffe8e8;color:#cc0000;}
+  .sum-empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:0.9rem;line-height:1.8;}
+  .sum-empty .big{font-size:2.5rem;margin-bottom:8px;}
+
+  @media print{
+    .toolbar,.day-tabs,.edit-scope,.celebration,.main-tabs,.sync-bar,.setup-card,#summaryView{display:none !important;}
+    .edit-row,.add-row{display:none !important;}
+    .task-item{display:flex !important;}
+    .progress-wrap{display:none;}
+    .section{page-break-inside:avoid;}
+    .section-header,.task-tag,.task-check{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  }
+</style>
+</head>
+<body>
+
+<h1>✨ My Weekly Schedule</h1>
+<p class="subtitle" id="subtitleText">Tap tasks to check them off • Syncs across devices</p>
+
+<div class="sync-bar">
+  <div class="sync-pill">
+    <div class="sync-dot" id="syncDot"></div>
+    <span id="syncText">Starting…</span>
+  </div>
+</div>
+
+<!-- Setup card -->
+<div class="setup-card" id="setupCard" style="display:none">
+  <h2>☁️ Connect Supabase</h2>
+  <p>Paste your Supabase project URL and anon key below.<br>
+     See <strong>supabase-setup-guide.md</strong> for step-by-step instructions.</p>
+  <div class="setup-fields">
+    <input id="sbUrl" type="url" placeholder="https://xxxxxxxxxxxx.supabase.co" />
+    <input id="sbKey" type="password" placeholder="eyJ… (anon/public key)" />
+  </div>
+  <button class="connect-btn" id="connectBtn" onclick="connectSupabase()">☁️ Connect & Save</button>
+  <p class="setup-note">Your anon key is designed to be used in client-side code — it only accesses your Supabase project data, nothing else.</p>
+</div>
+
+<div class="toolbar">
+  <button class="btn-edit" onclick="toggleEditMode()">✏️ Edit Schedule</button>
+  <button class="btn-filesave" onclick="saveFile()">💾 Save File</button>
+  <button class="btn-reset" onclick="resetDay()">↺ Reset today</button>
+</div>
+
+<div class="main-tabs">
+  <button class="main-tab active" id="tabSched" onclick="switchTab('schedule')">📅 Schedule</button>
+  <button class="main-tab" id="tabSum" onclick="switchTab('summary')">📊 Summary</button>
+</div>
+
+<div id="scheduleView">
+  <div class="edit-scope">
+    ✏️ Editing <strong id="scopeLabel">weekdays</strong> — changes apply to all days in that group.<br>
+    <span style="font-weight:600;color:#a07800">Switch to a weekend tab to edit Sat &amp; Sun separately.</span>
+  </div>
+  <div class="day-tabs" id="dayTabs"></div>
+  <div class="progress-wrap">
+    <span class="progress-emoji" id="progressEmoji">🌱</span>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+    <span class="progress-label" id="progressLabel">0 / 0</span>
+  </div>
+  <div id="scheduleContainer"></div>
+  <div class="celebration" id="celebration">🎉 You did it! Amazing day! 🎉</div>
+</div>
+
+<div id="summaryView"></div>
+<div class="icon-picker" id="iconPicker" style="display:none"></div>
+
+<script>
+// ── EMBEDDED CONFIG — replaced on Save File ────────────────────────────────
+/*SB_URL_START*/var SB_URL="";/*SB_URL_END*/
+/*SB_KEY_START*/var SB_KEY="";/*SB_KEY_END*/
+/*SCHED_START*/var SCHEDULE_DATA=null;/*SCHED_END*/
+
+const ROW_ID = "main"; // single row in the table
+
+// ── CONSTANTS ──────────────────────────────────────────────────────────────
+const DAYS=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+const TAG_LABELS={meal:'🍽 Nourishment',meds:'💊 Meds',hygiene:'🚿 Hygiene',
+  move:'🏃 Movement',rest:'😴 Rest',social:'💬 Social',sleep:'🌙 Sleep',chores:'🧹 Chores'};
+const TAG_COLORS={meal:'#FF9A56',meds:'#FF6EB4',hygiene:'#4D96FF',
+  move:'#6BCB77',rest:'#C77DFF',social:'#FFD93D',sleep:'#9B7FFF',chores:'#4ECDC4'};
+const ICONS=['🗓️','🐱','🥣','🥞','💊','🪥','💄','👗','🚪','🥗','🧘','😴','🍽️','💬','🧹','📵',
+  '🛌','🏃','🧺','💧','🛒','🚿','💆','🎵','📚','🧠','☕','🍵','🫖','🥤','💪','🌿','⭐','🌟',
+  '🌸','🌈','✅','🎯','🔔','⏰','🌙','☀️','🌅','💤','🧴','🪞','👟','🎧','🐶','🍎','🥦','🏠','📝'];
+
+const DEFAULT_WEEKDAY=[
+  {period:'morning',label:'🌅 Morning',time:'7:00 – 8:30am',tasks:[
+    {icon:'🗓️',label:'Book gym classes',time:'7:00am',tag:'move',key:'gym-book'},
+    {icon:'🐱',label:'Feed cats',time:'7:15am',tag:'chores',key:'feed-cats'},
+    {icon:'🥣',label:'Eat breakfast',time:'7:25am',tag:'meal',key:'breakfast'},
+    {icon:'💊',label:'Take ADHD medication',time:'7:40am',tag:'meds',key:'meds-adhd'},
+    {icon:'🪥',label:'Brush teeth, wash face and do skincare',time:'7:45am',tag:'hygiene',key:'hygiene-am'},
+    {icon:'💄',label:'Do makeup',time:'7:50am',tag:'hygiene',key:'makeup'},
+    {icon:'👗',label:'Get changed',time:'8:05am',tag:'hygiene',key:'get-changed'},
+    {icon:'🚪',label:'Leave the house',time:'8:20am',tag:'chores',key:'leave-house'},
+  ]},
+  {period:'afternoon',label:'☀️ Afternoon',time:'12:00 – 3:00pm',tasks:[
+    {icon:'🥗',label:"Eat lunch (don't skip!)",time:'12:30pm',tag:'meal',key:'lunch'},
+    {icon:'🧘',label:'5-min movement / stretch break',time:'2:00pm',tag:'move',key:'move-pm'},
+    {icon:'😴',label:'10-min rest (no screens)',time:'2:30pm',tag:'rest',key:'rest-pm'},
+  ]},
+  {period:'evening',label:'🌙 Evening',time:'6:00 – 10:30pm',tasks:[
+    {icon:'🍽️',label:'Eat dinner',time:'6:30pm',tag:'meal',key:'dinner'},
+    {icon:'💬',label:'Check in with someone you care about',time:'7:00pm',tag:'social',key:'social'},
+    {icon:'🧹',label:'10-min tidy (one area only)',time:'8:00pm',tag:'chores',key:'tidy'},
+    {icon:'🪥',label:'Brush teeth before bed',time:'9:30pm',tag:'hygiene',key:'hygiene-pm'},
+    {icon:'💊',label:'Take anxiety medication',time:'9:30pm',tag:'meds',key:'meds-anxiety'},
+    {icon:'📵',label:'Screens off / wind down',time:'10:00pm',tag:'sleep',key:'wind-down'},
+    {icon:'🛌',label:'In bed by 10:30pm',time:'10:30pm',tag:'sleep',key:'sleep'},
+  ]},
+  {period:'flexible',label:'🌿 Flexible (fit in today)',time:'anytime',tasks:[
+    {icon:'🏃',label:'30-min exercise or walk outside',time:'flexible',tag:'move',key:'exercise'},
+    {icon:'🧺',label:'One household chore',time:'flexible',tag:'chores',key:'chore-flex'},
+    {icon:'💧',label:'Drink 1 litre of water',time:'flexible',tag:'meal',key:'water-1l'},
+    {icon:'💧',label:'Drink 2 litres of water',time:'flexible',tag:'meal',key:'water-2l'},
+    {icon:'💧',label:'Drink 3 litres of water',time:'flexible',tag:'meal',key:'water-3l'},
+  ]}
+];
+const DEFAULT_WEEKEND=[
+  {period:'morning',label:'🌅 Morning',time:'7:00 – 10:00am',tasks:[
+    {icon:'🗓️',label:'Book gym classes',time:'7:00am',tag:'move',key:'gym-book'},
+    {icon:'🐱',label:'Feed cats',time:'8:30am',tag:'chores',key:'feed-cats'},
+    {icon:'🥞',label:'Eat breakfast',time:'8:45am',tag:'meal',key:'breakfast'},
+    {icon:'💊',label:'Take ADHD medication',time:'9:00am',tag:'meds',key:'meds-adhd'},
+    {icon:'🪥',label:'Brush teeth, wash face and do skincare',time:'9:15am',tag:'hygiene',key:'hygiene-am'},
+  ]},
+  {period:'afternoon',label:'☀️ Afternoon',time:'12:00 – 5:00pm',tasks:[
+    {icon:'🥗',label:'Eat lunch',time:'1:00pm',tag:'meal',key:'lunch'},
+    {icon:'🏃',label:'Get outside — walk, park, fresh air',time:'2:30pm',tag:'move',key:'exercise'},
+    {icon:'👯',label:'Social time — friend, family, call',time:'3:30pm',tag:'social',key:'social'},
+    {icon:'😴',label:'Guilt-free rest / nap if needed',time:'4:30pm',tag:'rest',key:'rest-pm'},
+  ]},
+  {period:'evening',label:'🌙 Evening',time:'6:00 – 10:30pm',tasks:[
+    {icon:'🍽️',label:'Eat dinner',time:'6:30pm',tag:'meal',key:'dinner'},
+    {icon:'🧹',label:'Light tidy / reset for the week',time:'7:30pm',tag:'chores',key:'tidy'},
+    {icon:'🧘',label:'Wind-down routine (bath, reading, etc.)',time:'9:00pm',tag:'rest',key:'rest-eve'},
+    {icon:'🪥',label:'Brush teeth before bed',time:'9:30pm',tag:'hygiene',key:'hygiene-pm'},
+    {icon:'💊',label:'Take anxiety medication',time:'9:30pm',tag:'meds',key:'meds-anxiety'},
+    {icon:'📵',label:'Screens off / wind down',time:'10:00pm',tag:'sleep',key:'wind-down'},
+    {icon:'🛌',label:'In bed by 10:30pm',time:'10:30pm',tag:'sleep',key:'sleep'},
+  ]},
+  {period:'flexible',label:'🌿 Prep for the week (if up to it)',time:'anytime',tasks:[
+    {icon:'🧺',label:'Laundry or bigger chore',time:'flexible',tag:'chores',key:'chore-flex'},
+    {icon:'🛒',label:'Food prep / grocery run',time:'flexible',tag:'meal',key:'food-prep'},
+    {icon:'💧',label:'Drink 1 litre of water',time:'flexible',tag:'meal',key:'water-1l'},
+    {icon:'💧',label:'Drink 2 litres of water',time:'flexible',tag:'meal',key:'water-2l'},
+    {icon:'💧',label:'Drink 3 litres of water',time:'flexible',tag:'meal',key:'water-3l'},
+  ]}
+];
+
+// ── APP STATE ──────────────────────────────────────────────────────────────
+if(!SCHEDULE_DATA) SCHEDULE_DATA={
+  weekday:JSON.parse(JSON.stringify(DEFAULT_WEEKDAY)),
+  weekend:JSON.parse(JSON.stringify(DEFAULT_WEEKEND))
+};
+let cloud={history:{},today:{date:'',ticks:{}}};
+let tickState={};DAYS.forEach(d=>tickState[d]={});
+let currentDay=(()=>{const j=new Date().getDay();return j===0?6:j-1;})();
+let editMode=false,pickerTarget=null,mainTab='schedule',syncTimer=null;
+
+const isWE=i=>i===5||i===6;
+const sk=i=>isWE(i)?'weekend':'weekday';
+const getSched=i=>SCHEDULE_DATA[sk(i)];
+const todayISO=()=>new Date().toISOString().slice(0,10);
+const fmtDate=iso=>new Date(iso+'T12:00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+function uid(){return Math.random().toString(36).slice(2,8);}
+
+// ── SYNC STATUS ────────────────────────────────────────────────────────────
+function setSync(state,text){
+  document.getElementById('syncDot').className='sync-dot '+state;
+  document.getElementById('syncText').textContent=text;
+}
+
+// ── SUPABASE API ───────────────────────────────────────────────────────────
+// Uses the Supabase REST API directly — no SDK needed, no npm, works from any file
+function sbHeaders(){
+  return {
+    'Content-Type':'application/json',
+    'apikey': SB_KEY,
+    'Authorization': 'Bearer '+SB_KEY,
+    'Prefer': 'return=minimal'
+  };
+}
+
+async function sbGet(){
+  try{
+    const res=await fetch(`${SB_URL}/rest/v1/schedule_data?id=eq.${ROW_ID}&select=data`,{
+      headers: sbHeaders()
+    });
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const rows=await res.json();
+    return rows.length>0 ? rows[0].data : null;
+  }catch(e){
+    setSync('err','Offline or sync error');
+    console.error('sbGet error:',e);
+    return null;
+  }
+}
+
+async function sbPush(){
+  if(!SB_URL||!SB_KEY) return;
+  setSync('busy','Saving…');
+  try{
+    // Upsert — inserts if no row with id=ROW_ID exists, updates if it does
+    const res=await fetch(`${SB_URL}/rest/v1/schedule_data`,{
+      method:'POST',
+      headers:{...sbHeaders(),'Prefer':'resolution=merge-duplicates,return=minimal'},
+      body:JSON.stringify({id:ROW_ID, data:cloud})
+    });
+    if(!res.ok){
+      const err=await res.text();
+      throw new Error('HTTP '+res.status+' — '+err);
+    }
+    setSync('ok','Synced ✓');
+  }catch(e){
+    setSync('err','Sync failed — will retry');
+    console.error('sbPush error:',e);
+  }
+}
+
+function schedulePush(){
+  clearTimeout(syncTimer);
+  syncTimer=setTimeout(sbPush,1500);
+}
+
+// ── CONNECT ────────────────────────────────────────────────────────────────
+async function connectSupabase(){
+  const url=document.getElementById('sbUrl').value.trim().replace(/\/$/,'');
+  const key=document.getElementById('sbKey').value.trim();
+  if(!url.includes('supabase.co')){alert('Please enter a valid Supabase project URL.');return;}
+  if(!key.startsWith('eyJ')){alert('Please enter your Supabase anon/public key (starts with eyJ…).');return;}
+  const btn=document.getElementById('connectBtn');
+  btn.textContent='Testing…';btn.disabled=true;
+  setSync('busy','Testing connection…');
+  SB_URL=url; SB_KEY=key;
+  try{
+    // Try a GET first — if the table doesn't exist this will fail with a useful error
+    const res=await fetch(`${SB_URL}/rest/v1/schedule_data?id=eq.${ROW_ID}&select=data`,{
+      headers:sbHeaders()
+    });
+    if(!res.ok){
+      const body=await res.text();
+      // Table doesn't exist yet
+      if(body.includes('relation')||body.includes('does not exist')){
+        throw new Error('TABLE_MISSING');
+      }
+      throw new Error('HTTP '+res.status);
+    }
+    const rows=await res.json();
+    if(rows.length>0 && rows[0].data){
+      cloud=rows[0].data;
+      cloud.history=cloud.history||{};
+      cloud.today=cloud.today||{date:'',ticks:{}};
+    }
+    rollover();
+    tickState[DAYS[currentDay]]=cloud.today.ticks||{};
+    document.getElementById('setupCard').style.display='none';
+    setSync('ok','Connected ✓');
+    setTimeout(()=>{
+      alert('Connected! 🎉\n\nDownloading your updated file now — use it on both devices and they\'ll share the same history.');
+      saveFile();
+    },300);
+    renderSchedule();
+  }catch(e){
+    SB_URL='';SB_KEY='';
+    if(e.message==='TABLE_MISSING'){
+      setSync('err','Connected but table not found');
+      alert('Connected to Supabase, but the table "schedule_data" wasn\'t found.\n\nPlease check Step 2 of the setup guide and make sure you created the table correctly, then try again.');
+    }else{
+      setSync('err','Could not connect — check your URL and key');
+      alert('Could not connect. Please double-check your Project URL and anon key, then try again.');
+    }
+    btn.textContent='☁️ Connect & Save';btn.disabled=false;
+  }
+}
+
+// ── ROLLOVER ───────────────────────────────────────────────────────────────
+function rollover(){
+  const today=todayISO();
+  if(cloud.today.date && cloud.today.date!==today){
+    if(Object.values(cloud.today.ticks||{}).some(v=>v))
+      cloud.history[cloud.today.date]=cloud.today.ticks;
+    cloud.today={date:today,ticks:{}};
+    schedulePush();
+  }
+  if(!cloud.today.date) cloud.today.date=today;
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+async function init(){
+  buildIconPicker();buildTabs();
+  if(!SB_URL||!SB_KEY){
+    document.getElementById('setupCard').style.display='block';
+    setSync('err','Not connected — complete setup above');
+    renderSchedule();return;
+  }
+  setSync('busy','Loading your data…');
+  const data=await sbGet();
+  if(data){
+    cloud=data;
+    cloud.history=cloud.history||{};
+    cloud.today=cloud.today||{date:'',ticks:{}};
+    rollover();
+    tickState[DAYS[currentDay]]=cloud.today.ticks||{};
+    setSync('ok','Synced ✓');
+  }else{
+    rollover();
+    setSync('err','Could not load — working offline');
+  }
+  renderSchedule();
+}
+
+// ── MAIN TAB ───────────────────────────────────────────────────────────────
+function switchTab(tab){
+  mainTab=tab;
+  document.getElementById('scheduleView').style.display=tab==='schedule'?'block':'none';
+  document.getElementById('summaryView').style.display=tab==='summary'?'block':'none';
+  document.getElementById('tabSched').classList.toggle('active',tab==='schedule');
+  document.getElementById('tabSum').classList.toggle('active',tab==='summary');
+  document.querySelector('.btn-reset').style.display=tab==='schedule'?'':'none';
+  document.querySelector('.btn-edit').style.display=tab==='schedule'?'':'none';
+  if(tab==='summary') renderSummary();
+}
+
+// ── DAY TABS ───────────────────────────────────────────────────────────────
+function buildTabs(){
+  const el=document.getElementById('dayTabs');
+  DAYS.forEach((d,i)=>{
+    const b=document.createElement('button');
+    b.className='day-tab'+(i===currentDay?' active':'');
+    b.dataset.day=i;b.textContent=d.slice(0,3).toUpperCase();
+    b.onclick=()=>switchDay(i);el.appendChild(b);
+  });
+}
+function switchDay(i){
+  currentDay=i;
+  document.querySelectorAll('.day-tab').forEach((t,j)=>t.classList.toggle('active',j===i));
+  document.getElementById('scopeLabel').textContent=isWE(i)?'weekend days (Sat & Sun)':'weekdays (Mon – Fri)';
+  renderSchedule();
+}
+
+// ── EDIT MODE ──────────────────────────────────────────────────────────────
+function toggleEditMode(){
+  editMode=!editMode;
+  document.body.classList.toggle('edit-mode',editMode);
+  const btn=document.querySelector('.btn-edit');
+  btn.classList.toggle('active',editMode);
+  btn.textContent=editMode?'✅ Done editing':'✏️ Edit Schedule';
+  document.getElementById('subtitleText').textContent=editMode
+    ?'Edit tasks — hit Save File when done':'Tap tasks to check them off • Syncs across devices';
+  renderSchedule();
+}
+
+// ── ICON PICKER ────────────────────────────────────────────────────────────
+function buildIconPicker(){
+  const el=document.getElementById('iconPicker');
+  ICONS.forEach(ic=>{
+    const b=document.createElement('button');b.textContent=ic;
+    b.onclick=e=>{e.stopPropagation();pickIcon(ic);};el.appendChild(b);
+  });
+}
+function openPicker(e,s,si,ti){
+  e.stopPropagation();pickerTarget={s,si,ti};
+  const p=document.getElementById('iconPicker');p.style.display='grid';
+  const r=e.target.getBoundingClientRect();
+  p.style.top=(r.bottom+window.scrollY+6)+'px';
+  p.style.left=Math.min(r.left,window.innerWidth-290)+'px';
+}
+function pickIcon(ic){
+  if(!pickerTarget)return;
+  SCHEDULE_DATA[pickerTarget.s][pickerTarget.si].tasks[pickerTarget.ti].icon=ic;
+  document.getElementById('iconPicker').style.display='none';
+  pickerTarget=null;renderSchedule();
+}
+document.addEventListener('click',()=>{document.getElementById('iconPicker').style.display='none';pickerTarget=null;});
+
+// ── RENDER ─────────────────────────────────────────────────────────────────
+function renderSchedule(){
+  const cont=document.getElementById('scheduleContainer');cont.innerHTML='';
+  const s=sk(currentDay),sched=SCHEDULE_DATA[s],day=DAYS[currentDay],ds=tickState[day];
+  sched.forEach((sec,si)=>{
+    const wrap=document.createElement('div');wrap.className='section';
+    const hdr=document.createElement('div');hdr.className='section-header '+sec.period;
+    hdr.innerHTML=`${sec.label}<span class="time-badge">${sec.time}</span>`;
+    wrap.appendChild(hdr);
+    const list=document.createElement('div');list.className='task-list';
+    sec.tasks.forEach((t,ti)=>{
+      const row=document.createElement('div');
+      row.className='task-item'+(ds[t.key]?' done':'');
+      row.innerHTML=`<div class="task-check">${ds[t.key]?'✓':''}</div>
+        <span class="task-icon">${t.icon}</span>
+        <div class="task-text"><span class="task-label">${t.label}</span><span class="task-time">${t.time}</span></div>
+        <span class="task-tag tag-${t.tag}">${TAG_LABELS[t.tag]}</span>`;
+      row.onclick=()=>tick(day,t.key);list.appendChild(row);
+      const er=document.createElement('div');er.className='edit-row';
+      const ef=document.createElement('div');ef.className='edit-fields';
+      const ib=document.createElement('button');ib.className='edit-icon-btn';ib.textContent=t.icon;
+      ib.onclick=e=>openPicker(e,s,si,ti);ef.appendChild(ib);
+      const li=document.createElement('input');li.className='edit-label-input';li.value=t.label;li.placeholder='Task name';
+      li.oninput=e=>SCHEDULE_DATA[s][si].tasks[ti].label=e.target.value;ef.appendChild(li);
+      const ti2=document.createElement('input');ti2.className='edit-time-input';ti2.value=t.time;ti2.placeholder='Time';
+      ti2.oninput=e=>SCHEDULE_DATA[s][si].tasks[ti].time=e.target.value;ef.appendChild(ti2);
+      const ts=document.createElement('select');ts.className='edit-tag-select';
+      Object.entries(TAG_LABELS).forEach(([v,l])=>{const o=document.createElement('option');o.value=v;o.textContent=l;if(v===t.tag)o.selected=true;ts.appendChild(o);});
+      ts.onchange=e=>{SCHEDULE_DATA[s][si].tasks[ti].tag=e.target.value;renderSchedule();};ef.appendChild(ts);
+      const db=document.createElement('button');db.className='edit-del-btn';db.textContent='✕';
+      db.onclick=()=>{SCHEDULE_DATA[s][si].tasks.splice(ti,1);renderSchedule();};ef.appendChild(db);
+      er.appendChild(ef);list.appendChild(er);
+    });
+    const ar=document.createElement('div');ar.className='add-row';
+    const ai=document.createElement('input');ai.className='add-icon-input';ai.placeholder='🌟';ai.maxLength=2;
+    const al=document.createElement('input');al.className='add-label-input';al.placeholder='New task name…';
+    const at=document.createElement('input');at.className='add-time-input';at.placeholder='Time';
+    const asel=document.createElement('select');
+    Object.entries(TAG_LABELS).forEach(([v,l])=>{const o=document.createElement('option');o.value=v;o.textContent=l;asel.appendChild(o);});
+    const ab=document.createElement('button');ab.className='add-btn';ab.textContent='+ Add';
+    ab.onclick=()=>{const lbl=al.value.trim();if(!lbl){al.focus();return;}
+      SCHEDULE_DATA[s][si].tasks.push({icon:ai.value.trim()||'✅',label:lbl,time:at.value.trim()||'flexible',tag:asel.value,key:uid()});
+      renderSchedule();};
+    ar.append(ai,al,at,asel,ab);list.appendChild(ar);
+    wrap.appendChild(list);
+    if(sec.period==='flexible'){
+      const n=document.createElement('p');n.className='flex-note';
+      n.textContent='No pressure — even one of these counts as a win 🌱';wrap.appendChild(n);
+    }
+    cont.appendChild(wrap);
+  });
+  updateProgress();
+}
+
+// ── TICKING ────────────────────────────────────────────────────────────────
+function tick(day,key){
+  if(editMode)return;
+  tickState[day][key]=!tickState[day][key];
+  cloud.today.ticks=tickState[DAYS[currentDay]];
+  schedulePush();renderSchedule();
+}
+function resetDay(){
+  tickState[DAYS[currentDay]]={};cloud.today.ticks={};
+  schedulePush();renderSchedule();
+}
+
+// ── PROGRESS ───────────────────────────────────────────────────────────────
+function updateProgress(){
+  const sched=getSched(currentDay),ds=tickState[DAYS[currentDay]];
+  let total=0,done=0;
+  sched.forEach(s=>s.tasks.forEach(t=>{total++;if(ds[t.key])done++;}));
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressLabel').textContent=`${done} / ${total}`;
+  const em=['🌱','🌿','💪','⭐','🌟','🎉'];
+  document.getElementById('progressEmoji').textContent=em[Math.min(Math.floor(pct/20),5)];
+  document.getElementById('celebration').style.display=(done>0&&done===total)?'block':'none';
+}
+
+// ── SUMMARY ────────────────────────────────────────────────────────────────
+function totalForDate(iso){
+  const d=new Date(iso+'T12:00:00'),we=d.getDay()===0||d.getDay()===6;
+  let t=0;SCHEDULE_DATA[we?'weekend':'weekday'].forEach(s=>t+=s.tasks.length);return t;
+}
+function renderSummary(){
+  const el=document.getElementById('summaryView');el.innerHTML='';
+  const today=todayISO(),hist=cloud.history||{};
+  const todayTicks=(cloud.today&&cloud.today.date===today)?cloud.today.ticks:{};
+  const todayAny=Object.values(todayTicks).some(v=>v);
+  const allDates=Object.keys(hist).sort().reverse();
+  const display=todayAny?[today,...allDates.filter(d=>d!==today)]:allDates;
+  const hdr=document.createElement('div');hdr.className='summary-hdr';
+  hdr.innerHTML='<span class="summary-title">📊 Your Progress</span>';
+  const cb=document.createElement('button');cb.className='clr-btn';cb.textContent='🗑 Clear history';
+  cb.onclick=clearHistory;hdr.appendChild(cb);el.appendChild(hdr);
+  if(display.length===0){
+    el.innerHTML+='<div class="sum-empty"><div class="big">🌱</div>Nothing here yet — start ticking tasks and come back to see your progress!</div>';
+    return;
+  }
+  // streaks
+  let streak=0,best=0,temp=0;
+  let cur=new Date(today+'T12:00:00');
+  for(let i=0;i<365;i++){
+    const iso=cur.toISOString().slice(0,10);
+    const tks=iso===today?todayTicks:hist[iso];
+    if(!tks){cur.setDate(cur.getDate()-1);if(i>0)break;continue;}
+    const tot=totalForDate(iso)||1,dn=Object.values(tks).filter(v=>v).length;
+    if(dn/tot>=0.5){temp++;best=Math.max(best,temp);if(streak===i)streak=temp;}
+    else{temp=0;if(i>0)break;}
+    cur.setDate(cur.getDate()-1);
+  }
+  best=Math.max(best,streak);
+  const sr=document.createElement('div');sr.className='streak-row';
+  sr.innerHTML=`<div class="streak-card cur"><div class="s-num">${streak}</div><div class="s-lbl">🔥 Current streak</div></div>
+    <div class="streak-card best"><div class="s-num">${best}</div><div class="s-lbl">🏆 Best streak</div></div>`;
+  el.appendChild(sr);
+  // heatmap
+  const ht=document.createElement('p');ht.className='sum-sec';ht.textContent='🗓 Last 28 days';el.appendChild(ht);
+  const hw=document.createElement('div');hw.className='heatmap-wrap';
+  const hg=document.createElement('div');hg.className='heatmap-grid';
+  ['M','T','W','T','F','S','S'].forEach(l=>{const c=document.createElement('div');c.className='hm-lbl';c.textContent=l;hg.appendChild(c);});
+  const sd=new Date(today+'T12:00:00');sd.setDate(sd.getDate()-27);
+  const pad=(sd.getDay()===0)?6:sd.getDay()-1;sd.setDate(sd.getDate()-pad);
+  const td2=new Date(today+'T12:00:00');let cc=new Date(sd);
+  for(let i=0;i<35;i++){
+    const iso=cc.toISOString().slice(0,10);
+    const cell=document.createElement('div');
+    if(cc>td2){cell.className='hm-cell hm-future';hg.appendChild(cell);cc.setDate(cc.getDate()+1);continue;}
+    const tks=iso===today?todayTicks:hist[iso];const isT=iso===today;
+    if(!tks){cell.className='hm-cell hm-0'+(isT?' hm-today':'');}
+    else{
+      const tot=totalForDate(iso)||1,dn=Object.values(tks).filter(v=>v).length,p=dn/tot;
+      const tier=p===0?0:p<0.25?1:p<0.5?2:p<0.75?3:4;
+      cell.className=`hm-cell hm-${tier}`+(isT?' hm-today':'');
+      cell.textContent=Math.round(p*100)+'%';
+      cell.title=`${fmtDate(iso)}: ${dn}/${tot} (${Math.round(p*100)}%)`;
+    }
+    hg.appendChild(cell);cc.setDate(cc.getDate()+1);if(i>=27+pad)break;
+  }
+  hw.appendChild(hg);el.appendChild(hw);
+  // tag breakdown
+  const tt=document.createElement('p');tt.className='sum-sec';tt.textContent='🏷 By category (all time)';el.appendChild(tt);
+  const tbw=document.createElement('div');tbw.className='tag-bk';
+  const td={},tp={};Object.keys(TAG_LABELS).forEach(t=>{td[t]=0;tp[t]=0;});
+  const af=[...allDates];if(todayAny&&!af.includes(today))af.push(today);
+  af.forEach(iso=>{
+    const tks=iso===today?todayTicks:hist[iso];if(!tks)return;
+    const d2=new Date(iso+'T12:00:00'),we=d2.getDay()===0||d2.getDay()===6;
+    SCHEDULE_DATA[we?'weekend':'weekday'].forEach(s=>s.tasks.forEach(t=>{
+      if(tp[t.tag]===undefined)return;tp[t.tag]++;if(tks[t.key])td[t.tag]++;
+    }));
+  });
+  Object.entries(TAG_LABELS).forEach(([tag,lbl])=>{
+    if(!tp[tag])return;
+    const pct=Math.round(td[tag]/tp[tag]*100);
+    const row=document.createElement('div');row.className='tag-row';
+    row.innerHTML=`<span class="tag-lbl">${lbl}</span>
+      <div class="tag-bg"><div class="tag-fill" style="width:${pct}%;background:${TAG_COLORS[tag]}"></div></div>
+      <span class="tag-pct">${pct}%</span>`;
+    tbw.appendChild(row);
+  });
+  el.appendChild(tbw);
+  // recent days
+  const rt=document.createElement('p');rt.className='sum-sec';rt.textContent='📋 Recent days';el.appendChild(rt);
+  const rl=document.createElement('div');rl.className='recent-list';
+  display.slice(0,30).forEach(iso=>{
+    const tks=iso===today?todayTicks:hist[iso];if(!tks)return;
+    const tot=totalForDate(iso)||1,dn=Object.values(tks).filter(v=>v).length,pct=Math.round(dn/tot*100);
+    const cc2=pct>=80?'chip-great':pct>=60?'chip-good':pct>=40?'chip-ok':'chip-low';
+    const ct=pct>=80?'Great 🌟':pct>=60?'Good 👍':pct>=40?'OK 🌿':'Low 🌱';
+    const item=document.createElement('div');item.className='rec-item';
+    item.innerHTML=`<div class="rec-date">${iso===today?'<strong>Today</strong>':fmtDate(iso)}<small>${dn} of ${tot} tasks</small></div>
+      <div class="rec-bar-bg"><div class="rec-bar-fill" style="width:${pct}%"></div></div>
+      <span class="chip ${cc2}">${ct}</span>`;
+    rl.appendChild(item);
+  });
+  el.appendChild(rl);
+}
+function clearHistory(){
+  if(!confirm('Clear all history? This cannot be undone.'))return;
+  cloud={history:{},today:{date:todayISO(),ticks:{}}};
+  DAYS.forEach(d=>tickState[d]={});
+  sbPush();renderSummary();
+}
+
+// ── SAVE FILE ──────────────────────────────────────────────────────────────
+function saveFile(){
+  let html=document.documentElement.outerHTML;
+  html=html.replace(/\/\*SB_URL_START\*\/.*?\/\*SB_URL_END\*\//,
+    '/*SB_URL_START*/var SB_URL='+JSON.stringify(SB_URL)+';/*SB_URL_END*/');
+  html=html.replace(/\/\*SB_KEY_START\*\/.*?\/\*SB_KEY_END\*\//,
+    '/*SB_KEY_START*/var SB_KEY='+JSON.stringify(SB_KEY)+';/*SB_KEY_END*/');
+  html=html.replace(/\/\*SCHED_START\*\/.*?\/\*SCHED_END\*\//,
+    '/*SCHED_START*/var SCHEDULE_DATA='+JSON.stringify(SCHEDULE_DATA)+';/*SCHED_END*/');
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='my-weekly-schedule.html';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  const btn=document.querySelector('.btn-filesave');
+  if(btn){const o=btn.textContent;btn.textContent='✅ Saved!';setTimeout(()=>btn.textContent=o,2500);}
+}
+
+init();
+</script>
+</body>
+</html>
