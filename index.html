@@ -1,8 +1,10 @@
-<html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Weekly Self-Care Schedule</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&amp;family=Fredoka+One&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
   :root {
     --coral:#FF6B6B;--peach:#FFA07A;--sun:#FFD93D;--mint:#6BCB77;
@@ -238,8 +240,8 @@
 
 <div class="sync-bar">
   <div class="sync-pill">
-    <div class="sync-dot busy" id="syncDot"></div>
-    <span id="syncText">Publishing to GitHub…</span>
+    <div class="sync-dot" id="syncDot"></div>
+    <span id="syncText">Starting…</span>
   </div>
 </div>
 
@@ -248,15 +250,15 @@
   <h2>☁️ Connect Supabase</h2>
   <p>Enter your Supabase credentials once — they'll be remembered on this device forever.</p>
   <div class="setup-fields">
-    <input id="sbUrl" type="url" placeholder="https://xxxxxxxxxxxx.supabase.co">
-    <input id="sbKey" type="password" placeholder="eyJ… (anon/public key)">
+    <input id="sbUrl" type="url" placeholder="https://xxxxxxxxxxxx.supabase.co" />
+    <input id="sbKey" type="password" placeholder="eyJ… (anon/public key)" />
   </div>
   <button class="setup-btn purple" id="sbConnectBtn" onclick="connectSupabase()">☁️ Connect</button>
 </div>
 
 <div class="toolbar">
   <button class="btn-edit" onclick="toggleEditMode()">✏️ Edit Schedule</button>
-  <button class="btn-publish" id="btnPublish" onclick="promptAndPublish()" disabled="">Publishing…</button>
+  <button class="btn-publish" id="btnPublish" onclick="promptAndPublish()">🐙 Publish changes</button>
   <button class="btn-reset" onclick="resetDay()">↺ Reset today</button>
 </div>
 
@@ -270,87 +272,18 @@
     ✏️ Editing <strong id="scopeLabel">weekdays</strong> — changes apply to all days in that group.<br>
     <span style="font-weight:600;color:#a07800">Switch to a weekend tab to edit Sat &amp; Sun separately.</span>
   </div>
-  <div class="day-tabs" id="dayTabs"><button class="day-tab" data-day="0">MON</button><button class="day-tab" data-day="1">TUE</button><button class="day-tab" data-day="2">WED</button><button class="day-tab" data-day="3">THU</button><button class="day-tab active" data-day="4">FRI</button><button class="day-tab" data-day="5">SAT</button><button class="day-tab" data-day="6">SUN</button><button class="day-tab" data-day="0">MON</button><button class="day-tab" data-day="1">TUE</button><button class="day-tab" data-day="2">WED</button><button class="day-tab" data-day="3">THU</button><button class="day-tab active" data-day="4">FRI</button><button class="day-tab" data-day="5">SAT</button><button class="day-tab" data-day="6">SUN</button></div>
+  <div class="day-tabs" id="dayTabs"></div>
   <div class="progress-wrap">
     <span class="progress-emoji" id="progressEmoji">🌱</span>
-    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width: 13%;"></div></div>
-    <span class="progress-label" id="progressLabel">3 / 23</span>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+    <span class="progress-label" id="progressLabel">0 / 0</span>
   </div>
-  <div id="scheduleContainer"><div class="section"><div class="section-header morning">🌅 Morning<span class="time-badge">7:00 – 8:30am</span></div><div class="task-list"><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">🗓️</span>
-        <div class="task-text"><span class="task-label">Book gym classes</span><span class="task-time">7:00am</span></div>
-        <span class="task-tag tag-move">🏃 Movement</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">🗓️</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="task-item done"><div class="task-check">✓</div>
-        <span class="task-icon">🐱</span>
-        <div class="task-text"><span class="task-label">Feed cats</span><span class="task-time">7:15am</span></div>
-        <span class="task-tag tag-chores">🧹 Chores</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">🐱</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="task-item done"><div class="task-check">✓</div>
-        <span class="task-icon">🥣</span>
-        <div class="task-text"><span class="task-label">Eat breakfast</span><span class="task-time">7:25am</span></div>
-        <span class="task-tag tag-meal">🍽 Nourishment</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">🥣</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="task-item done"><div class="task-check">✓</div>
-        <span class="task-icon">💊</span>
-        <div class="task-text"><span class="task-label">Take ADHD medication</span><span class="task-time">7:40am</span></div>
-        <span class="task-tag tag-meds">💊 Meds</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">💊</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">🪥</span>
-        <div class="task-text"><span class="task-label">Brush teeth, wash face and do skincare</span><span class="task-time">7:45am</span></div>
-        <span class="task-tag tag-hygiene">🚿 Hygiene</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">🪥</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">💄</span>
-        <div class="task-text"><span class="task-label">Do makeup</span><span class="task-time">7:50am</span></div>
-        <span class="task-tag tag-hygiene">🚿 Hygiene</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">💄</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">👗</span>
-        <div class="task-text"><span class="task-label">Get changed</span><span class="task-time">8:05am</span></div>
-        <span class="task-tag tag-hygiene">🚿 Hygiene</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">👗</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">🚪</span>
-        <div class="task-text"><span class="task-label">Leave the house</span><span class="task-time">8:20am</span></div>
-        <span class="task-tag tag-chores">🧹 Chores</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">🚪</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="add-row"><input class="add-icon-input" placeholder="🌟" maxlength="2"><input class="add-label-input" placeholder="New task name…"><input class="add-time-input" placeholder="Time"><select><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="add-btn">+ Add</button></div></div></div><div class="section"><div class="section-header afternoon">☀️ Afternoon<span class="time-badge">12:00 – 3:00pm</span></div><div class="task-list"><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">🥗</span>
-        <div class="task-text"><span class="task-label">Eat lunch (don't skip!)</span><span class="task-time">12:30pm</span></div>
-        <span class="task-tag tag-meal">🍽 Nourishment</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">🥗</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">🧘</span>
-        <div class="task-text"><span class="task-label">5-min movement / stretch break</span><span class="task-time">2:00pm</span></div>
-        <span class="task-tag tag-move">🏃 Movement</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">🧘</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">😴</span>
-        <div class="task-text"><span class="task-label">10-min rest (no screens)</span><span class="task-time">2:30pm</span></div>
-        <span class="task-tag tag-rest">😴 Rest</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">😴</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="add-row"><input class="add-icon-input" placeholder="🌟" maxlength="2"><input class="add-label-input" placeholder="New task name…"><input class="add-time-input" placeholder="Time"><select><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="add-btn">+ Add</button></div></div></div><div class="section"><div class="section-header evening">🌙 Evening<span class="time-badge">6:00 – 10:30pm</span></div><div class="task-list"><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">🍽️</span>
-        <div class="task-text"><span class="task-label">Eat dinner</span><span class="task-time">6:30pm</span></div>
-        <span class="task-tag tag-meal">🍽 Nourishment</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">🍽️</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">💬</span>
-        <div class="task-text"><span class="task-label">Check in with someone you care about</span><span class="task-time">7:00pm</span></div>
-        <span class="task-tag tag-social">💬 Social</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">💬</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">🧹</span>
-        <div class="task-text"><span class="task-label">10-min tidy (one area only)</span><span class="task-time">8:00pm</span></div>
-        <span class="task-tag tag-chores">🧹 Chores</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">🧹</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">🪥</span>
-        <div class="task-text"><span class="task-label">Brush teeth before bed</span><span class="task-time">9:30pm</span></div>
-        <span class="task-tag tag-hygiene">🚿 Hygiene</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">🪥</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">💊</span>
-        <div class="task-text"><span class="task-label">Take anxiety medication</span><span class="task-time">9:30pm</span></div>
-        <span class="task-tag tag-meds">💊 Meds</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">💊</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">📵</span>
-        <div class="task-text"><span class="task-label">Screens off / wind down</span><span class="task-time">10:00pm</span></div>
-        <span class="task-tag tag-sleep">🌙 Sleep</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">📵</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">🛌</span>
-        <div class="task-text"><span class="task-label">In bed by 10:30pm</span><span class="task-time">10:30pm</span></div>
-        <span class="task-tag tag-sleep">🌙 Sleep</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">🛌</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="add-row"><input class="add-icon-input" placeholder="🌟" maxlength="2"><input class="add-label-input" placeholder="New task name…"><input class="add-time-input" placeholder="Time"><select><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="add-btn">+ Add</button></div></div></div><div class="section"><div class="section-header flexible">🌿 Flexible (fit in today)<span class="time-badge">anytime</span></div><div class="task-list"><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">🏃</span>
-        <div class="task-text"><span class="task-label">30-min exercise or walk outside</span><span class="task-time">flexible</span></div>
-        <span class="task-tag tag-move">🏃 Movement</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">🏃</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">🧺</span>
-        <div class="task-text"><span class="task-label">One household chore</span><span class="task-time">flexible</span></div>
-        <span class="task-tag tag-chores">🧹 Chores</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">🧺</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">💧</span>
-        <div class="task-text"><span class="task-label">Drink 1 litre of water</span><span class="task-time">flexible</span></div>
-        <span class="task-tag tag-meal">🍽 Nourishment</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">💧</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">💧</span>
-        <div class="task-text"><span class="task-label">Drink 2 litres of water</span><span class="task-time">flexible</span></div>
-        <span class="task-tag tag-meal">🍽 Nourishment</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">💧</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="task-item"><div class="task-check"></div>
-        <span class="task-icon">💧</span>
-        <div class="task-text"><span class="task-label">Drink 3 litres of water</span><span class="task-time">flexible</span></div>
-        <span class="task-tag tag-meal">🍽 Nourishment</span></div><div class="edit-row"><div class="edit-fields"><button class="edit-icon-btn">💧</button><input class="edit-label-input" placeholder="Task name"><input class="edit-time-input" placeholder="Time"><select class="edit-tag-select"><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="edit-del-btn">✕</button></div></div><div class="add-row"><input class="add-icon-input" placeholder="🌟" maxlength="2"><input class="add-label-input" placeholder="New task name…"><input class="add-time-input" placeholder="Time"><select><option value="meal">🍽 Nourishment</option><option value="meds">💊 Meds</option><option value="hygiene">🚿 Hygiene</option><option value="move">🏃 Movement</option><option value="rest">😴 Rest</option><option value="social">💬 Social</option><option value="sleep">🌙 Sleep</option><option value="chores">🧹 Chores</option></select><button class="add-btn">+ Add</button></div></div><p class="flex-note">No pressure — even one of these counts as a win 🌱</p></div></div>
-  <div class="celebration" id="celebration" style="display: none;">🎉 You did it! Amazing day! 🎉</div>
+  <div id="scheduleContainer"></div>
+  <div class="celebration" id="celebration">🎉 You did it! Amazing day! 🎉</div>
 </div>
 
 <div id="summaryView"></div>
-<div class="icon-picker" id="iconPicker" style="display:none"><button>🗓️</button><button>🐱</button><button>🥣</button><button>🥞</button><button>💊</button><button>🪥</button><button>💄</button><button>👗</button><button>🚪</button><button>🥗</button><button>🧘</button><button>😴</button><button>🍽️</button><button>💬</button><button>🧹</button><button>📵</button><button>🛌</button><button>🏃</button><button>🧺</button><button>💧</button><button>🛒</button><button>🚿</button><button>💆</button><button>🎵</button><button>📚</button><button>🧠</button><button>☕</button><button>🍵</button><button>🫖</button><button>🥤</button><button>💪</button><button>🌿</button><button>⭐</button><button>🌟</button><button>🌸</button><button>🌈</button><button>✅</button><button>🎯</button><button>🔔</button><button>⏰</button><button>🌙</button><button>☀️</button><button>🌅</button><button>💤</button><button>🧴</button><button>🪞</button><button>👟</button><button>🎧</button><button>🐶</button><button>🍎</button><button>🥦</button><button>🏠</button><button>📝</button><button>🗓️</button><button>🐱</button><button>🥣</button><button>🥞</button><button>💊</button><button>🪥</button><button>💄</button><button>👗</button><button>🚪</button><button>🥗</button><button>🧘</button><button>😴</button><button>🍽️</button><button>💬</button><button>🧹</button><button>📵</button><button>🛌</button><button>🏃</button><button>🧺</button><button>💧</button><button>🛒</button><button>🚿</button><button>💆</button><button>🎵</button><button>📚</button><button>🧠</button><button>☕</button><button>🍵</button><button>🫖</button><button>🥤</button><button>💪</button><button>🌿</button><button>⭐</button><button>🌟</button><button>🌸</button><button>🌈</button><button>✅</button><button>🎯</button><button>🔔</button><button>⏰</button><button>🌙</button><button>☀️</button><button>🌅</button><button>💤</button><button>🧴</button><button>🪞</button><button>👟</button><button>🎧</button><button>🐶</button><button>🍎</button><button>🥦</button><button>🏠</button><button>📝</button></div>
+<div class="icon-picker" id="iconPicker" style="display:none"></div>
 
 <script>
 // ── GITHUB CONFIG (baked in — never changes) ───────────────────────────────
@@ -363,21 +296,27 @@ const GH_API='https://api.github.com';
 // Loaded from localStorage on each device — never baked into the file
 // So both devices just enter once and remember forever
 const LS_SB='selfcare_sb_creds_v1';
+const LS_GH='selfcare_gh_token_v1';
 let SB_URL='';
 let SB_KEY='';
+let GH_TOKEN='';
 
 function loadCreds(){
   try{
     const c=JSON.parse(localStorage.getItem(LS_SB)||'{}');
     SB_URL=c.url||'';SB_KEY=c.key||'';
   }catch(e){SB_URL='';SB_KEY='';}
+  try{GH_TOKEN=localStorage.getItem(LS_GH)||'';}catch(e){GH_TOKEN='';}
 }
 function saveCreds(){
   try{localStorage.setItem(LS_SB,JSON.stringify({url:SB_URL,key:SB_KEY}));}catch(e){}
 }
+function saveGHToken(token){
+  try{localStorage.setItem(LS_GH,token);GH_TOKEN=token;}catch(e){}
+}
 function clearCreds(){
-  try{localStorage.removeItem(LS_SB);}catch(e){}
-  SB_URL='';SB_KEY='';
+  try{localStorage.removeItem(LS_SB);localStorage.removeItem(LS_GH);}catch(e){}
+  SB_URL='';SB_KEY='';GH_TOKEN='';
 }
 
 // ── CONSTANTS ──────────────────────────────────────────────────────────────
@@ -391,7 +330,7 @@ const ICONS=['🗓️','🐱','🥣','🥞','💊','🪥','💄','👗','🚪','
   '🌸','🌈','✅','🎯','🔔','⏰','🌙','☀️','🌅','💤','🧴','🪞','👟','🎧','🐶','🍎','🥦','🏠','📝'];
 
 // Schedule data — updated via GitHub publish when tasks are edited
-/*SCHED_START*/var SCHEDULE_DATA={"weekday":[{"period":"morning","label":"🌅 Morning","time":"7:00 – 8:30am","tasks":[{"icon":"🗓️","label":"Book gym classes","time":"7:00am","tag":"move","key":"gym-book"},{"icon":"🐱","label":"Feed cats","time":"7:15am","tag":"chores","key":"feed-cats"},{"icon":"🥣","label":"Eat breakfast","time":"7:25am","tag":"meal","key":"breakfast"},{"icon":"💊","label":"Take ADHD medication","time":"7:40am","tag":"meds","key":"meds-adhd"},{"icon":"🪥","label":"Brush teeth, wash face and do skincare","time":"7:45am","tag":"hygiene","key":"hygiene-am"},{"icon":"💄","label":"Do makeup","time":"7:50am","tag":"hygiene","key":"makeup"},{"icon":"👗","label":"Get changed","time":"8:05am","tag":"hygiene","key":"get-changed"},{"icon":"🚪","label":"Leave the house","time":"8:20am","tag":"chores","key":"leave-house"}]},{"period":"afternoon","label":"☀️ Afternoon","time":"12:00 – 3:00pm","tasks":[{"icon":"🥗","label":"Eat lunch (don't skip!)","time":"12:30pm","tag":"meal","key":"lunch"},{"icon":"🧘","label":"5-min movement / stretch break","time":"2:00pm","tag":"move","key":"move-pm"},{"icon":"😴","label":"10-min rest (no screens)","time":"2:30pm","tag":"rest","key":"rest-pm"}]},{"period":"evening","label":"🌙 Evening","time":"6:00 – 10:30pm","tasks":[{"icon":"🍽️","label":"Eat dinner","time":"6:30pm","tag":"meal","key":"dinner"},{"icon":"💬","label":"Check in with someone you care about","time":"7:00pm","tag":"social","key":"social"},{"icon":"🧹","label":"10-min tidy (one area only)","time":"8:00pm","tag":"chores","key":"tidy"},{"icon":"🪥","label":"Brush teeth before bed","time":"9:30pm","tag":"hygiene","key":"hygiene-pm"},{"icon":"💊","label":"Take anxiety medication","time":"9:30pm","tag":"meds","key":"meds-anxiety"},{"icon":"📵","label":"Screens off / wind down","time":"10:00pm","tag":"sleep","key":"wind-down"},{"icon":"🛌","label":"In bed by 10:30pm","time":"10:30pm","tag":"sleep","key":"sleep"}]},{"period":"flexible","label":"🌿 Flexible (fit in today)","time":"anytime","tasks":[{"icon":"🏃","label":"30-min exercise or walk outside","time":"flexible","tag":"move","key":"exercise"},{"icon":"🧺","label":"One household chore","time":"flexible","tag":"chores","key":"chore-flex"},{"icon":"💧","label":"Drink 1 litre of water","time":"flexible","tag":"meal","key":"water-1l"},{"icon":"💧","label":"Drink 2 litres of water","time":"flexible","tag":"meal","key":"water-2l"},{"icon":"💧","label":"Drink 3 litres of water","time":"flexible","tag":"meal","key":"water-3l"}]}],"weekend":[{"period":"morning","label":"🌅 Morning","time":"7:00 – 10:00am","tasks":[{"icon":"🗓️","label":"Book gym classes","time":"7:00am","tag":"move","key":"gym-book"},{"icon":"🐱","label":"Feed cats","time":"8:30am","tag":"chores","key":"feed-cats"},{"icon":"🥞","label":"Eat breakfast","time":"8:45am","tag":"meal","key":"breakfast"},{"icon":"💊","label":"Take ADHD medication","time":"9:00am","tag":"meds","key":"meds-adhd"},{"icon":"🪥","label":"Brush teeth, wash face and do skincare","time":"9:15am","tag":"hygiene","key":"hygiene-am"}]},{"period":"afternoon","label":"☀️ Afternoon","time":"12:00 – 5:00pm","tasks":[{"icon":"🥗","label":"Eat lunch","time":"1:00pm","tag":"meal","key":"lunch"},{"icon":"🏃","label":"Get outside — walk, park, fresh air","time":"2:30pm","tag":"move","key":"exercise"},{"icon":"👯","label":"Social time — friend, family, call","time":"3:30pm","tag":"social","key":"social"},{"icon":"😴","label":"Guilt-free rest / nap if needed","time":"4:30pm","tag":"rest","key":"rest-pm"}]},{"period":"evening","label":"🌙 Evening","time":"6:00 – 10:30pm","tasks":[{"icon":"🍽️","label":"Eat dinner","time":"6:30pm","tag":"meal","key":"dinner"},{"icon":"🧹","label":"Light tidy / reset for the week","time":"7:30pm","tag":"chores","key":"tidy"},{"icon":"🧘","label":"Wind-down routine (bath, reading, etc.)","time":"9:00pm","tag":"rest","key":"rest-eve"},{"icon":"🪥","label":"Brush teeth before bed","time":"9:30pm","tag":"hygiene","key":"hygiene-pm"},{"icon":"💊","label":"Take anxiety medication","time":"9:30pm","tag":"meds","key":"meds-anxiety"},{"icon":"📵","label":"Screens off / wind down","time":"10:00pm","tag":"sleep","key":"wind-down"},{"icon":"🛌","label":"In bed by 10:30pm","time":"10:30pm","tag":"sleep","key":"sleep"}]},{"period":"flexible","label":"🌿 Prep for the week (if up to it)","time":"anytime","tasks":[{"icon":"🧺","label":"Laundry or bigger chore","time":"flexible","tag":"chores","key":"chore-flex"},{"icon":"🛒","label":"Food prep / grocery run","time":"flexible","tag":"meal","key":"food-prep"},{"icon":"💧","label":"Drink 1 litre of water","time":"flexible","tag":"meal","key":"water-1l"},{"icon":"💧","label":"Drink 2 litres of water","time":"flexible","tag":"meal","key":"water-2l"},{"icon":"💧","label":"Drink 3 litres of water","time":"flexible","tag":"meal","key":"water-3l"}]}]};/*SCHED_END*/
+/*SCHED_START*/var SCHEDULE_DATA=null;/*SCHED_END*/
 
 const DEFAULT_WEEKDAY=[
   {period:'morning',label:'🌅 Morning',time:'7:00 – 8:30am',tasks:[
@@ -588,23 +527,34 @@ async function pushToGitHub(token){
 }
 
 async function promptAndPublish(){
-  const token=prompt('Paste your GitHub Personal Access Token to publish schedule changes to GitHub:');
-  if(!token||!token.trim()) return;
-  const t=token.trim();
-  if(!t.startsWith('ghp_')&&!t.startsWith('github_pat_')){
-    alert('That doesn\'t look like a valid GitHub token (should start with ghp_ or github_pat_).');return;
+  // Use saved token if available, otherwise ask
+  let token=GH_TOKEN;
+  if(!token){
+    token=prompt('Paste your GitHub Personal Access Token:\n(You\'ll only need to do this once — it will be remembered on this device)');
+    if(!token||!token.trim()) return;
+    token=token.trim();
+    if(!token.startsWith('ghp_')&&!token.startsWith('github_pat_')){
+      alert('That doesn\'t look like a valid GitHub token (should start with ghp_ or github_pat_).');return;
+    }
   }
   const btn=document.getElementById('btnPublish');
   const orig=btn.textContent;
   btn.textContent='Publishing…';btn.disabled=true;
   setSync('busy','Publishing to GitHub…');
   try{
-    await pushToGitHub(t);
+    await pushToGitHub(token);
+    saveGHToken(token); // remember it for next time
     setSync('ok','Published ✓ — changes live in ~60s');
     btn.textContent='✅ Published!';
     setTimeout(()=>{btn.textContent=orig;btn.disabled=false;},3000);
   }catch(e){
-    alert('Publish failed: '+e.message+'\n\nMake sure your token has the "repo" scope.');
+    // Token may have expired — clear it so they're prompted again next time
+    if(e.message.includes('401')||e.message.includes('Bad credentials')){
+      saveGHToken('');
+      alert('Token rejected — it may have expired. You\'ll be asked for a new one next time.');
+    }else{
+      alert('Publish failed: '+e.message+'\n\nMake sure your token has the "repo" scope.');
+    }
     setSync('ok','Synced ✓');
     btn.textContent=orig;btn.disabled=false;
   }
@@ -891,6 +841,5 @@ function clearHistory(){
 
 init();
 </script>
-
-
-</body></html>
+</body>
+</html>
