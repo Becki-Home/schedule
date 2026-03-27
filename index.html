@@ -19,7 +19,6 @@
     -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px;}
   .subtitle{text-align:center;color:var(--muted);font-size:0.85rem;margin-bottom:10px;}
 
-  /* sync pill */
   .sync-bar{display:flex;justify-content:center;margin-bottom:12px;}
   .sync-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;
     border-radius:50px;background:white;box-shadow:var(--shadow);font-size:0.72rem;font-weight:800;color:var(--muted);}
@@ -29,7 +28,6 @@
   .sync-dot.err{background:var(--coral);}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 
-  /* toolbar */
   .toolbar{display:flex;gap:8px;justify-content:center;margin-bottom:14px;flex-wrap:wrap;}
   .toolbar button{padding:8px 16px;border-radius:50px;border:2px solid transparent;
     font-family:'Nunito',sans-serif;font-weight:800;font-size:0.78rem;
@@ -37,13 +35,11 @@
   .btn-edit{background:white;border-color:var(--lavender);color:var(--lavender);}
   .btn-edit:hover{background:#f5eeff;}
   .btn-edit.active{background:var(--lavender);color:white;}
-  .btn-filesave{background:var(--mint);color:white;border-color:var(--mint);display:none;}
-  .btn-filesave:hover{background:#50b85a;}
+  .btn-publish{background:#24292e;color:white;border-color:#24292e;}
+  .btn-publish:hover{background:#3a3f44;}
   .btn-reset{background:white;border-color:#ddd;color:var(--muted);}
   .btn-reset:hover{border-color:var(--coral);color:var(--coral);}
-  body.edit-mode .btn-filesave{display:flex;}
 
-  /* main tabs */
   .main-tabs{display:flex;gap:8px;justify-content:center;margin-bottom:16px;}
   .main-tab{padding:9px 22px;border-radius:50px;border:2.5px solid #ddd;
     background:white;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.85rem;
@@ -51,7 +47,6 @@
   .main-tab.active{background:var(--text);color:white;border-color:var(--text);}
   .main-tab:hover:not(.active){background:#f0f0f0;color:var(--text);}
 
-  /* day tabs */
   .day-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:14px;scrollbar-width:none;}
   .day-tabs::-webkit-scrollbar{display:none;}
   .day-tab{flex-shrink:0;padding:8px 14px;border-radius:50px;border:2.5px solid transparent;
@@ -67,13 +62,11 @@
   .day-tab[data-day="6"].active{background:var(--lavender);}
   .day-tab:not(.active):hover{background:#f0f0f0;color:var(--text);}
 
-  /* edit banner */
   .edit-scope{display:none;background:#fff8e1;border:2px solid var(--sun);border-radius:14px;
     padding:10px 14px;font-size:0.8rem;font-weight:700;color:#7a5a00;
     margin-bottom:12px;text-align:center;line-height:1.6;}
   body.edit-mode .edit-scope{display:block;}
 
-  /* progress */
   .progress-wrap{background:white;border-radius:50px;padding:10px 16px;margin-bottom:14px;
     box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;}
   .progress-bar-bg{flex:1;height:12px;background:#f0f0f0;border-radius:50px;overflow:hidden;}
@@ -83,20 +76,22 @@
   .progress-emoji{font-size:1.2rem;}
   body.edit-mode .progress-wrap{display:none;}
 
-  /* setup card */
-  .setup-card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:16px;}
-  .setup-card h2{font-family:'Fredoka One',cursive;font-size:1.3rem;margin-bottom:8px;text-align:center;}
-  .setup-card p{font-size:0.84rem;color:var(--muted);line-height:1.6;margin-bottom:16px;text-align:center;}
+  /* setup cards */
+  .setup-card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-bottom:16px;}
+  .setup-card h2{font-family:'Fredoka One',cursive;font-size:1.2rem;margin-bottom:6px;text-align:center;}
+  .setup-card p{font-size:0.82rem;color:var(--muted);line-height:1.6;margin-bottom:14px;text-align:center;}
   .setup-fields{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
   .setup-fields input{padding:10px 14px;border-radius:12px;border:2px solid #e8e8e8;
     font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:700;outline:none;color:var(--text);}
   .setup-fields input:focus{border-color:var(--lavender);}
   .setup-fields input::placeholder{color:#ccc;font-weight:600;}
-  .connect-btn{width:100%;padding:12px;background:var(--lavender);color:white;border:none;
-    border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.9rem;
-    cursor:pointer;transition:background 0.2s;}
-  .connect-btn:hover{background:#b565f5;}
-  .connect-btn:disabled{background:#ccc;cursor:default;}
+  .setup-btn{width:100%;padding:12px;color:white;border:none;border-radius:50px;
+    font-family:'Nunito',sans-serif;font-weight:800;font-size:0.9rem;cursor:pointer;transition:background 0.2s;}
+  .setup-btn.purple{background:var(--lavender);}
+  .setup-btn.purple:hover{background:#b565f5;}
+  .setup-btn.dark{background:#24292e;}
+  .setup-btn.dark:hover{background:#3a3f44;}
+  .setup-btn:disabled{background:#ccc;cursor:default;}
   .setup-note{font-size:0.72rem;color:var(--muted);text-align:center;margin-top:10px;line-height:1.6;}
 
   /* sections */
@@ -112,7 +107,6 @@
     font-weight:700;background:rgba(255,255,255,0.25);padding:2px 8px;border-radius:50px;}
   .task-list{background:white;border-radius:0 0 var(--radius) var(--radius);box-shadow:var(--shadow);overflow:hidden;}
 
-  /* task row */
   .task-item{display:flex;align-items:center;gap:12px;padding:13px 16px;
     border-bottom:1px solid #f5f5f5;cursor:pointer;transition:background 0.15s;user-select:none;}
   .task-item:last-child{border-bottom:none;}
@@ -136,7 +130,6 @@
   .tag-sleep{background:#EDE8FF;color:#5200C8;}
   .tag-chores{background:#E8F8F0;color:#006640;}
 
-  /* edit rows */
   .edit-row{display:none;flex-direction:column;gap:8px;
     padding:12px 14px;border-bottom:1px solid #eeebff;background:#fdfcff;}
   body.edit-mode .task-item{display:none !important;}
@@ -160,7 +153,6 @@
     font-size:1rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
   .edit-del-btn:hover{background:#ffcccc;}
 
-  /* add row */
   .add-row{display:none;padding:10px 14px;gap:6px;align-items:center;flex-wrap:wrap;
     background:#f6fff6;border-top:2px dashed #b8e8b8;}
   body.edit-mode .add-row{display:flex;}
@@ -174,7 +166,6 @@
     font-family:'Nunito',sans-serif;font-weight:800;font-size:0.8rem;cursor:pointer;}
   .add-btn:hover{background:#4db860;}
 
-  /* icon picker */
   .icon-picker{position:fixed;background:white;border-radius:16px;
     box-shadow:0 8px 30px rgba(0,0,0,0.18);padding:12px;z-index:9999;
     display:grid;grid-template-columns:repeat(8,1fr);gap:4px;width:280px;max-height:200px;overflow-y:auto;}
@@ -257,22 +248,33 @@
   </div>
 </div>
 
-<!-- Setup card -->
-<div class="setup-card" id="setupCard" style="display:none">
+<!-- Supabase setup — shown if no credentials saved -->
+<div class="setup-card" id="sbSetup" style="display:none">
   <h2>☁️ Connect Supabase</h2>
-  <p>Paste your Supabase project URL and anon key below.<br>
-     See <strong>supabase-setup-guide.md</strong> for step-by-step instructions.</p>
+  <p>Paste your Supabase Project URL and anon key to enable cross-device sync.</p>
   <div class="setup-fields">
     <input id="sbUrl" type="url" placeholder="https://xxxxxxxxxxxx.supabase.co" />
     <input id="sbKey" type="password" placeholder="eyJ… (anon/public key)" />
   </div>
-  <button class="connect-btn" id="connectBtn" onclick="connectSupabase()">☁️ Connect & Save</button>
-  <p class="setup-note">Your anon key is designed to be used in client-side code — it only accesses your Supabase project data, nothing else.</p>
+  <button class="setup-btn purple" id="sbConnectBtn" onclick="connectSupabase()">☁️ Connect Supabase</button>
+</div>
+
+<!-- GitHub setup — shown after Supabase connected, until GH token saved -->
+<div class="setup-card" id="ghSetup" style="display:none">
+  <h2>🐙 Publish to GitHub</h2>
+  <p>Paste your GitHub Personal Access Token to save your credentials permanently.<br>
+     Go to <strong>GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)</strong><br>
+     Generate a new token with the <strong>repo</strong> scope.</p>
+  <div class="setup-fields">
+    <input id="ghToken" type="password" placeholder="ghp_…" />
+  </div>
+  <button class="setup-btn dark" id="ghPublishBtn" onclick="publishToGitHub()">🐙 Save & Publish to GitHub</button>
+  <p class="setup-note">Your token is used once to push the file to GitHub, then discarded — it is never stored anywhere.</p>
 </div>
 
 <div class="toolbar">
   <button class="btn-edit" onclick="toggleEditMode()">✏️ Edit Schedule</button>
-  <button class="btn-filesave" onclick="saveFile()">💾 Save File</button>
+  <button class="btn-publish" id="btnPublish" onclick="promptAndPublish()" style="display:none">🐙 Publish changes</button>
   <button class="btn-reset" onclick="resetDay()">↺ Reset today</button>
 </div>
 
@@ -300,12 +302,17 @@
 <div class="icon-picker" id="iconPicker" style="display:none"></div>
 
 <script>
-// ── EMBEDDED CONFIG — replaced on Save File ────────────────────────────────
+// ── EMBEDDED CONFIG ────────────────────────────────────────────────────────
+// These are replaced when published to GitHub
 /*SB_URL_START*/var SB_URL="";/*SB_URL_END*/
 /*SB_KEY_START*/var SB_KEY="";/*SB_KEY_END*/
 /*SCHED_START*/var SCHEDULE_DATA=null;/*SCHED_END*/
 
-const ROW_ID = "main"; // single row in the table
+// GitHub config — baked in, never changes
+const GH_USER = "Becki-Home";
+const GH_REPO = "schedule";
+const GH_FILE = "index.html";
+const GH_API  = "https://api.github.com";
 
 // ── CONSTANTS ──────────────────────────────────────────────────────────────
 const DAYS=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
@@ -382,7 +389,7 @@ const DEFAULT_WEEKEND=[
   ]}
 ];
 
-// ── APP STATE ──────────────────────────────────────────────────────────────
+// ── STATE ──────────────────────────────────────────────────────────────────
 if(!SCHEDULE_DATA) SCHEDULE_DATA={
   weekday:JSON.parse(JSON.stringify(DEFAULT_WEEKDAY)),
   weekend:JSON.parse(JSON.stringify(DEFAULT_WEEKEND))
@@ -405,117 +412,155 @@ function setSync(state,text){
   document.getElementById('syncText').textContent=text;
 }
 
-// ── SUPABASE API ───────────────────────────────────────────────────────────
-// Uses the Supabase REST API directly — no SDK needed, no npm, works from any file
+// ── SUPABASE ───────────────────────────────────────────────────────────────
+const ROW_ID='main';
 function sbHeaders(){
-  return {
-    'Content-Type':'application/json',
-    'apikey': SB_KEY,
-    'Authorization': 'Bearer '+SB_KEY,
-    'Prefer': 'return=minimal'
-  };
+  return{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Prefer':'return=minimal'};
 }
-
 async function sbGet(){
   try{
-    const res=await fetch(`${SB_URL}/rest/v1/schedule_data?id=eq.${ROW_ID}&select=data`,{
-      headers: sbHeaders()
-    });
+    const res=await fetch(`${SB_URL}/rest/v1/schedule_data?id=eq.${ROW_ID}&select=data`,{headers:sbHeaders()});
     if(!res.ok) throw new Error('HTTP '+res.status);
     const rows=await res.json();
-    return rows.length>0 ? rows[0].data : null;
-  }catch(e){
-    setSync('err','Offline or sync error');
-    console.error('sbGet error:',e);
-    return null;
-  }
+    return rows.length>0?rows[0].data:null;
+  }catch(e){setSync('err','Offline or sync error');return null;}
 }
-
 async function sbPush(){
   if(!SB_URL||!SB_KEY) return;
   setSync('busy','Saving…');
   try{
-    // Upsert — inserts if no row with id=ROW_ID exists, updates if it does
     const res=await fetch(`${SB_URL}/rest/v1/schedule_data`,{
       method:'POST',
       headers:{...sbHeaders(),'Prefer':'resolution=merge-duplicates,return=minimal'},
-      body:JSON.stringify({id:ROW_ID, data:cloud})
+      body:JSON.stringify({id:ROW_ID,data:cloud})
     });
-    if(!res.ok){
-      const err=await res.text();
-      throw new Error('HTTP '+res.status+' — '+err);
-    }
+    if(!res.ok) throw new Error('HTTP '+res.status);
     setSync('ok','Synced ✓');
-  }catch(e){
-    setSync('err','Sync failed — will retry');
-    console.error('sbPush error:',e);
-  }
+  }catch(e){setSync('err','Sync failed — will retry');}
 }
+function schedulePush(){clearTimeout(syncTimer);syncTimer=setTimeout(sbPush,1500);}
 
-function schedulePush(){
-  clearTimeout(syncTimer);
-  syncTimer=setTimeout(sbPush,1500);
-}
-
-// ── CONNECT ────────────────────────────────────────────────────────────────
 async function connectSupabase(){
   const url=document.getElementById('sbUrl').value.trim().replace(/\/$/,'');
   const key=document.getElementById('sbKey').value.trim();
   if(!url.includes('supabase.co')){alert('Please enter a valid Supabase project URL.');return;}
-  if(!key.startsWith('eyJ')){alert('Please enter your Supabase anon/public key (starts with eyJ…).');return;}
-  const btn=document.getElementById('connectBtn');
+  if(!key.startsWith('eyJ')){alert('Please enter your Supabase anon key (starts with eyJ…).');return;}
+  const btn=document.getElementById('sbConnectBtn');
   btn.textContent='Testing…';btn.disabled=true;
   setSync('busy','Testing connection…');
-  SB_URL=url; SB_KEY=key;
+  SB_URL=url;SB_KEY=key;
   try{
-    // Try a GET first — if the table doesn't exist this will fail with a useful error
-    const res=await fetch(`${SB_URL}/rest/v1/schedule_data?id=eq.${ROW_ID}&select=data`,{
-      headers:sbHeaders()
-    });
+    const res=await fetch(`${SB_URL}/rest/v1/schedule_data?id=eq.${ROW_ID}&select=data`,{headers:sbHeaders()});
     if(!res.ok){
       const body=await res.text();
-      // Table doesn't exist yet
-      if(body.includes('relation')||body.includes('does not exist')){
-        throw new Error('TABLE_MISSING');
-      }
+      if(body.includes('relation')||body.includes('does not exist')) throw new Error('TABLE_MISSING');
       throw new Error('HTTP '+res.status);
     }
     const rows=await res.json();
-    if(rows.length>0 && rows[0].data){
-      cloud=rows[0].data;
-      cloud.history=cloud.history||{};
-      cloud.today=cloud.today||{date:'',ticks:{}};
+    if(rows.length>0&&rows[0].data){
+      cloud=rows[0].data;cloud.history=cloud.history||{};cloud.today=cloud.today||{date:'',ticks:{}};
     }
     rollover();
     tickState[DAYS[currentDay]]=cloud.today.ticks||{};
-    document.getElementById('setupCard').style.display='none';
-    setSync('ok','Connected ✓');
-    setTimeout(()=>{
-      alert('Connected! 🎉\n\nDownloading your updated file now — use it on both devices and they\'ll share the same history.');
-      saveFile();
-    },300);
+    document.getElementById('sbSetup').style.display='none';
+    document.getElementById('ghSetup').style.display='block';
+    setSync('ok','Supabase connected ✓ — now publish to GitHub to save permanently');
     renderSchedule();
   }catch(e){
     SB_URL='';SB_KEY='';
     if(e.message==='TABLE_MISSING'){
-      setSync('err','Connected but table not found');
-      alert('Connected to Supabase, but the table "schedule_data" wasn\'t found.\n\nPlease check Step 2 of the setup guide and make sure you created the table correctly, then try again.');
+      alert('Connected but table "schedule_data" not found.\nPlease check your Supabase setup — you need a table with columns: id (text, primary key) and data (jsonb).');
     }else{
-      setSync('err','Could not connect — check your URL and key');
-      alert('Could not connect. Please double-check your Project URL and anon key, then try again.');
+      alert('Could not connect. Please check your URL and anon key.');
     }
-    btn.textContent='☁️ Connect & Save';btn.disabled=false;
+    setSync('err','Connection failed');
+    btn.textContent='☁️ Connect Supabase';btn.disabled=false;
+  }
+}
+
+// ── GITHUB PUBLISH ─────────────────────────────────────────────────────────
+function buildHTML(){
+  // Get current page HTML and inject credentials + schedule data
+  let html=document.documentElement.outerHTML;
+  html=html.replace(/\/\*SB_URL_START\*\/.*?\/\*SB_URL_END\*\//,'/*SB_URL_START*/var SB_URL='+JSON.stringify(SB_URL)+';/*SB_URL_END*/');
+  html=html.replace(/\/\*SB_KEY_START\*\/.*?\/\*SB_KEY_END\*\//,'/*SB_KEY_START*/var SB_KEY='+JSON.stringify(SB_KEY)+';/*SB_KEY_END*/');
+  html=html.replace(/\/\*SCHED_START\*\/.*?\/\*SCHED_END\*\//,'/*SCHED_START*/var SCHEDULE_DATA='+JSON.stringify(SCHEDULE_DATA)+';/*SCHED_END*/');
+  return html;
+}
+
+async function pushToGitHub(token){
+  setSync('busy','Publishing to GitHub…');
+  const content=btoa(unescape(encodeURIComponent(buildHTML())));
+  // Get current file SHA (needed for updates)
+  let sha=null;
+  try{
+    const r=await fetch(`${GH_API}/repos/${GH_USER}/${GH_REPO}/contents/${GH_FILE}`,{
+      headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}
+    });
+    if(r.ok){const j=await r.json();sha=j.sha;}
+  }catch(e){}
+
+  const body={message:'Update schedule',content};
+  if(sha) body.sha=sha;
+
+  const res=await fetch(`${GH_API}/repos/${GH_USER}/${GH_REPO}/contents/${GH_FILE}`,{
+    method:'PUT',
+    headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  });
+  if(!res.ok){
+    const err=await res.text();
+    throw new Error('GitHub error: '+res.status+' — '+err);
+  }
+}
+
+async function publishToGitHub(){
+  const token=document.getElementById('ghToken').value.trim();
+  if(!token.startsWith('ghp_')&&!token.startsWith('github_pat_')){
+    alert('Please paste a valid GitHub Personal Access Token (starts with ghp_ or github_pat_).');return;
+  }
+  const btn=document.getElementById('ghPublishBtn');
+  btn.textContent='Publishing…';btn.disabled=true;
+  try{
+    await pushToGitHub(token);
+    document.getElementById('ghSetup').style.display='none';
+    document.getElementById('btnPublish').style.display='flex';
+    setSync('ok','Published to GitHub ✓ — reload in ~60s to confirm');
+    alert('Published! 🎉\n\nWait about 60 seconds, then reload your GitHub Pages URL on both devices — they\'ll always stay in sync from now on.\n\nUse the 🐙 Publish changes button any time you edit the schedule.');
+  }catch(e){
+    alert('Publishing failed: '+e.message);
+    setSync('err','Publish failed');
+    btn.textContent='🐙 Save & Publish to GitHub';btn.disabled=false;
+  }
+}
+
+async function promptAndPublish(){
+  const token=prompt('Paste your GitHub Personal Access Token to publish changes:');
+  if(!token) return;
+  if(!token.startsWith('ghp_')&&!token.startsWith('github_pat_')){
+    alert('That doesn\'t look like a valid token.');return;
+  }
+  const btn=document.getElementById('btnPublish');
+  const orig=btn.textContent;btn.textContent='Publishing…';btn.disabled=true;
+  try{
+    await pushToGitHub(token);
+    setSync('ok','Published ✓');
+    btn.textContent='✅ Published!';
+    setTimeout(()=>{btn.textContent=orig;btn.disabled=false;},3000);
+  }catch(e){
+    alert('Publishing failed: '+e.message);
+    setSync('err','Publish failed');
+    btn.textContent=orig;btn.disabled=false;
   }
 }
 
 // ── ROLLOVER ───────────────────────────────────────────────────────────────
 function rollover(){
   const today=todayISO();
-  if(cloud.today.date && cloud.today.date!==today){
+  if(cloud.today.date&&cloud.today.date!==today){
     if(Object.values(cloud.today.ticks||{}).some(v=>v))
       cloud.history[cloud.today.date]=cloud.today.ticks;
-    cloud.today={date:today,ticks:{}};
-    schedulePush();
+    cloud.today={date:today,ticks:{}};schedulePush();
   }
   if(!cloud.today.date) cloud.today.date=today;
 }
@@ -524,27 +569,25 @@ function rollover(){
 async function init(){
   buildIconPicker();buildTabs();
   if(!SB_URL||!SB_KEY){
-    document.getElementById('setupCard').style.display='block';
-    setSync('err','Not connected — complete setup above');
+    document.getElementById('sbSetup').style.display='block';
+    setSync('err','Not connected — enter Supabase credentials above');
     renderSchedule();return;
   }
+  // Credentials already baked in — show publish button for future edits
+  document.getElementById('btnPublish').style.display='flex';
   setSync('busy','Loading your data…');
   const data=await sbGet();
   if(data){
-    cloud=data;
-    cloud.history=cloud.history||{};
-    cloud.today=cloud.today||{date:'',ticks:{}};
-    rollover();
-    tickState[DAYS[currentDay]]=cloud.today.ticks||{};
+    cloud=data;cloud.history=cloud.history||{};cloud.today=cloud.today||{date:'',ticks:{}};
+    rollover();tickState[DAYS[currentDay]]=cloud.today.ticks||{};
     setSync('ok','Synced ✓');
   }else{
-    rollover();
-    setSync('err','Could not load — working offline');
+    rollover();setSync('err','Offline — working locally');
   }
   renderSchedule();
 }
 
-// ── MAIN TAB ───────────────────────────────────────────────────────────────
+// ── TABS ───────────────────────────────────────────────────────────────────
 function switchTab(tab){
   mainTab=tab;
   document.getElementById('scheduleView').style.display=tab==='schedule'?'block':'none';
@@ -555,8 +598,6 @@ function switchTab(tab){
   document.querySelector('.btn-edit').style.display=tab==='schedule'?'':'none';
   if(tab==='summary') renderSummary();
 }
-
-// ── DAY TABS ───────────────────────────────────────────────────────────────
 function buildTabs(){
   const el=document.getElementById('dayTabs');
   DAYS.forEach((d,i)=>{
@@ -581,7 +622,7 @@ function toggleEditMode(){
   btn.classList.toggle('active',editMode);
   btn.textContent=editMode?'✅ Done editing':'✏️ Edit Schedule';
   document.getElementById('subtitleText').textContent=editMode
-    ?'Edit tasks — hit Save File when done':'Tap tasks to check them off • Syncs across devices';
+    ?'Edit tasks — hit 🐙 Publish when done':'Tap tasks to check them off • Syncs across devices';
   renderSchedule();
 }
 
@@ -707,7 +748,6 @@ function renderSummary(){
     el.innerHTML+='<div class="sum-empty"><div class="big">🌱</div>Nothing here yet — start ticking tasks and come back to see your progress!</div>';
     return;
   }
-  // streaks
   let streak=0,best=0,temp=0;
   let cur=new Date(today+'T12:00:00');
   for(let i=0;i<365;i++){
@@ -724,7 +764,6 @@ function renderSummary(){
   sr.innerHTML=`<div class="streak-card cur"><div class="s-num">${streak}</div><div class="s-lbl">🔥 Current streak</div></div>
     <div class="streak-card best"><div class="s-num">${best}</div><div class="s-lbl">🏆 Best streak</div></div>`;
   el.appendChild(sr);
-  // heatmap
   const ht=document.createElement('p');ht.className='sum-sec';ht.textContent='🗓 Last 28 days';el.appendChild(ht);
   const hw=document.createElement('div');hw.className='heatmap-wrap';
   const hg=document.createElement('div');hg.className='heatmap-grid';
@@ -748,7 +787,6 @@ function renderSummary(){
     hg.appendChild(cell);cc.setDate(cc.getDate()+1);if(i>=27+pad)break;
   }
   hw.appendChild(hg);el.appendChild(hw);
-  // tag breakdown
   const tt=document.createElement('p');tt.className='sum-sec';tt.textContent='🏷 By category (all time)';el.appendChild(tt);
   const tbw=document.createElement('div');tbw.className='tag-bk';
   const td={},tp={};Object.keys(TAG_LABELS).forEach(t=>{td[t]=0;tp[t]=0;});
@@ -770,7 +808,6 @@ function renderSummary(){
     tbw.appendChild(row);
   });
   el.appendChild(tbw);
-  // recent days
   const rt=document.createElement('p');rt.className='sum-sec';rt.textContent='📋 Recent days';el.appendChild(rt);
   const rl=document.createElement('div');rl.className='recent-list';
   display.slice(0,30).forEach(iso=>{
@@ -791,24 +828,6 @@ function clearHistory(){
   cloud={history:{},today:{date:todayISO(),ticks:{}}};
   DAYS.forEach(d=>tickState[d]={});
   sbPush();renderSummary();
-}
-
-// ── SAVE FILE ──────────────────────────────────────────────────────────────
-function saveFile(){
-  let html=document.documentElement.outerHTML;
-  html=html.replace(/\/\*SB_URL_START\*\/.*?\/\*SB_URL_END\*\//,
-    '/*SB_URL_START*/var SB_URL='+JSON.stringify(SB_URL)+';/*SB_URL_END*/');
-  html=html.replace(/\/\*SB_KEY_START\*\/.*?\/\*SB_KEY_END\*\//,
-    '/*SB_KEY_START*/var SB_KEY='+JSON.stringify(SB_KEY)+';/*SB_KEY_END*/');
-  html=html.replace(/\/\*SCHED_START\*\/.*?\/\*SCHED_END\*\//,
-    '/*SCHED_START*/var SCHEDULE_DATA='+JSON.stringify(SCHEDULE_DATA)+';/*SCHED_END*/');
-  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download='my-weekly-schedule.html';
-  document.body.appendChild(a);a.click();document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  const btn=document.querySelector('.btn-filesave');
-  if(btn){const o=btn.textContent;btn.textContent='✅ Saved!';setTimeout(()=>btn.textContent=o,2500);}
 }
 
 init();
